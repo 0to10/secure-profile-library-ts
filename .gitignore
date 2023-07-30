@@ -1,0 +1,8 @@
+# IDE
+.idea
+
+# NPM
+node_modules
+
+# Jest
+coverage
