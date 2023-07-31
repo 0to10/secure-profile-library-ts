@@ -54,6 +54,20 @@ describe('MasterKey', (): void => {
         ).toStrictEqual('some test string to encrypt and decrypt')
     });
 
+    test('.encrypt() with wrong version', async (): Promise<void> => {
+        const masterKey: MasterKey = await createMasterKey();
+
+        expect((): void => {
+            masterKey.encrypt(Buffer.from(''), {
+                number: 256,
+                algorithm: {
+                    name: 'test',
+                    iv_length: 5,
+                },
+            });
+        }).toThrowError('Version numbers above 255 are not supported');
+    });
+
     test('.decrypt()', async (): Promise<void> => {
         // Result of:
         // btoa(String.fromCharCode(...new Uint8Array(await masterKey.encrypt(data))))

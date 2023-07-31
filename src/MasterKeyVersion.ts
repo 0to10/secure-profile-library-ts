@@ -7,7 +7,7 @@
  * @license MIT
  */
 export type MasterKeyVersion = {
-    number: [number, number];
+    number: number;
     algorithm: {
         name: string;
         iv_length: number;

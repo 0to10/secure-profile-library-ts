@@ -4,7 +4,7 @@ import {Cryptography} from './Cryptography';
 import {MasterKeyVersion} from './MasterKeyVersion';
 
 const DEFAULT_VERSION: MasterKeyVersion = {
-    number: [0, 0],
+    number: 0,
     algorithm: {
         name: 'AES-GCM',
         iv_length: 96,
@@ -32,11 +32,11 @@ export class MasterKey {
         data: ArrayBuffer,
         version: MasterKeyVersion = DEFAULT_VERSION,
     ): Promise<ArrayBuffer> {
-        const VERSION_LENGTH: number = version.number.length;
-
-        if (VERSION_LENGTH > 255) {
-            throw new Error('Unable to use given version, as the number exceeds 255 bits');
+        if (version.number > 255) {
+            throw new Error('Version numbers above 255 are not supported');
         }
+
+        const VERSION_LENGTH: number = 1;
 
         const iv: ArrayBuffer = Cryptography.randomBytes(version.algorithm.iv_length);
 
@@ -51,8 +51,8 @@ export class MasterKey {
 
         return promise.then((encrypted: ArrayBuffer): ArrayBuffer => {
             const result: Uint8Array = new Uint8Array(DATA_OFFSET + iv.byteLength + encrypted.byteLength);
-            result.set([version.number.length], 0);
-            result.set(version.number, 1);
+            result.set([1], 0);
+            result.set([version.number], 1);
             result.set(new Uint8Array(iv), DATA_OFFSET);
             result.set(new Uint8Array(encrypted), DATA_OFFSET + iv.byteLength);
 
@@ -90,7 +90,7 @@ export class MasterKey {
 
         return this.versions.find(version => {
             let currentVersionNumber: number = 0;
-            for (let i = 0, l = version.number.length; i < l; i++) {
+            for (let i = 0; i < 1; i++) {
                 currentVersionNumber |= version.number[i] << (i * 8);
             }
 
