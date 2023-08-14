@@ -28,7 +28,7 @@ export class MasterKey {
         this.crypto = Cryptography.getEngine();
     }
 
-    public encrypt(
+    public async encrypt(
         data: ArrayBuffer,
         version: MasterKeyVersion = DEFAULT_VERSION,
     ): Promise<ArrayBuffer> {
