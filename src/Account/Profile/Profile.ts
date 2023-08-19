@@ -3,6 +3,9 @@
 import {Cryptography} from '../../Cryptography';
 import {MasterKey} from '../../MasterKey';
 
+const crypto: SubtleCrypto = Cryptography.getEngine();
+const textEncoder: TextEncoder = new TextEncoder();
+
 /**
  * Profile
  *
@@ -11,14 +14,9 @@ import {MasterKey} from '../../MasterKey';
  */
 export abstract class Profile {
 
-    protected readonly crypto: SubtleCrypto;
-    private readonly encoder: TextEncoder;
-
     protected constructor(
         protected readonly masterSalt: ArrayBuffer,
     ) {
-        this.crypto = Cryptography.getEngine();
-        this.encoder = new TextEncoder();
     }
 
     public async deriveMasterKey(
@@ -52,6 +50,14 @@ export abstract class Profile {
         );
 
         return new MasterKey(derivedData);
+    }
+
+    protected get crypto(): SubtleCrypto {
+        return crypto;
+    }
+
+    protected get encoder(): TextEncoder {
+        return textEncoder;
     }
 
 }
