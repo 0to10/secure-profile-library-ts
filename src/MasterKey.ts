@@ -3,6 +3,8 @@
 import {Cryptography} from './Cryptography';
 import {MasterKeyVersion} from './MasterKeyVersion';
 
+const crypto: SubtleCrypto = Cryptography.getEngine();
+
 const DEFAULT_VERSION: MasterKeyVersion = {
     number: 0,
     algorithm: {
@@ -19,13 +21,10 @@ const DEFAULT_VERSION: MasterKeyVersion = {
  */
 export class MasterKey {
 
-    private readonly crypto: SubtleCrypto;
-
     constructor(
         private readonly key: CryptoKey,
         private readonly versions: Array<MasterKeyVersion> = [DEFAULT_VERSION],
     ) {
-        this.crypto = Cryptography.getEngine();
     }
 
     public async encrypt(
@@ -96,6 +95,10 @@ export class MasterKey {
 
             return versionNumber === currentVersionNumber;
         });
+    }
+
+    private get crypto(): SubtleCrypto {
+        return crypto;
     }
 
 }
