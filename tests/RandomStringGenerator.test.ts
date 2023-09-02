@@ -44,7 +44,7 @@ describe('RandomStringGenerator', (): void => {
     test('.generate() with length less than seeds.length', (): void => {
         expect((): void => {
             generator.generate(4);
-        }).toThrowError(/Generated string is missing data from "(A-D|E-H|I-L|0-3)" seed\./);
+        }).toThrowError(/Generated string is missing data from "(A-D|E-H|I-L|0-3|Symbols)" seed\./);
     });
 
 });
