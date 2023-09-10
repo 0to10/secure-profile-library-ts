@@ -15,7 +15,7 @@ const textEncoder: TextEncoder = new TextEncoder();
 export abstract class Profile {
 
     protected constructor(
-        protected readonly masterSalt: ArrayBuffer,
+        public readonly masterSalt: ArrayBuffer,
     ) {
     }
 

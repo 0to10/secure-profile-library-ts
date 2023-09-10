@@ -24,6 +24,7 @@ describe('Profile', (): void => {
         const masterKey: MasterKey = await profile.deriveMasterKey('1234567890');
 
         expect(masterKey).toBeInstanceOf(MasterKey);
+        expect(profile.masterSalt).toStrictEqual(salt);
     });
 
 });
