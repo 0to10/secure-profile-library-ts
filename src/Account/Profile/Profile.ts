@@ -1,10 +1,16 @@
 'use strict';
 
+import {scrypt} from 'scrypt-js';
+import unorm from 'unorm';
+
 import {Cryptography} from '../../Cryptography';
 import {MasterKey} from '../../MasterKey';
+import {CryptoKey} from '@peculiar/webcrypto';
 
 const crypto: SubtleCrypto = Cryptography.getEngine();
 const textEncoder: TextEncoder = new TextEncoder();
+
+const MASTER_KEY_BITS: number = 256;
 
 /**
  * Profile
@@ -22,34 +28,33 @@ export abstract class Profile {
     public async deriveMasterKey(
         password: string,
     ): Promise<MasterKey> {
-        const algorithm: Pbkdf2Params = {
-            name: 'PBKDF2',
-            salt: this.masterSalt,
-            iterations: 100000,
-            hash: 'SHA-256',
-        };
+        // The CPU/memory cost; increasing this increases the overall difficulty
+        const N: number = 32768;
+        // The block size; increasing this increases the dependency on memory latency and bandwidth
+        const r: number = 8;
+        // The parallelization cost; increasing this increases the dependency on multiprocessing
+        const p: number = 1;
 
-        const parameters: AesKeyGenParams = {
-            name: 'AES-GCM',
-            length: 256,
-        };
-
-        const usages: Array<KeyUsage> = [
-            'encrypt',
-            'decrypt',
-        ];
-
-        const derivedData: CryptoKey = await this.crypto.deriveKey(
-            algorithm,
-            await this.crypto.importKey('raw', this.encoder.encode(password), 'PBKDF2', false, [
-                'deriveKey',
-            ]),
-            parameters,
-            false,
-            usages,
+        const keyData: Uint8Array = await scrypt(
+            this.encoder.encode(unorm.nfkc(password)),
+            this.masterSalt,
+            N,
+            r,
+            p,
+            MASTER_KEY_BITS / 8
         );
 
-        return new MasterKey(derivedData);
+        const algorithm: AesKeyGenParams = {
+            name: 'AES-GCM',
+            length: MASTER_KEY_BITS,
+        };
+
+        const cryptoKey: CryptoKey = await this.crypto.importKey('raw', keyData, algorithm, false, [
+            'encrypt',
+            'decrypt',
+        ]);
+
+        return new MasterKey(cryptoKey);
     }
 
     protected get crypto(): SubtleCrypto {
