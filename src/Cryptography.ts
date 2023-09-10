@@ -27,7 +27,7 @@ export class Cryptography {
         return engine;
     }
 
-    public static randomBytes(length: number): ArrayBuffer {
+    public static randomBytes(length: number): Uint8Array {
         return pkijs.getRandomValues(new Uint8Array(length));
     }
 
