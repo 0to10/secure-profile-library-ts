@@ -18,7 +18,7 @@ interface CryptoKeyPairMap {
 export class RoamingProfile extends Profile {
 
     constructor(
-        masterSalt: ArrayBuffer,
+        masterSalt: Uint8Array,
         private readonly clientCertificate: CryptoKeyPair,
         private agreements: CryptoKeyPairMap = {},
     ) {
