@@ -25,7 +25,7 @@ export class ProfileFactory {
         const keyPair: CryptoKeyPair = await this.keyPairFactory.generateEncryption(true);
 
         return new RoamingProfile(
-            Cryptography.randomBytes(MASTER_SALT_BITS),
+            Cryptography.randomBytes(MASTER_SALT_BITS / 8),
             keyPair,
         );
     }
