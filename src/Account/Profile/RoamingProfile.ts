@@ -1,10 +1,10 @@
 'use strict';
 
+import {CryptoKeyPairMap} from '../CryptoKeyPairMap';
+import {EncryptedProfile} from './EncryptedProfile';
+import {MasterKey} from '../../MasterKey';
 import {Profile} from './Profile';
-
-interface CryptoKeyPairMap {
-    [key: string]: CryptoKeyPair | undefined;
-}
+import {Data} from '../Data';
 
 /**
  * RoamingProfile
@@ -17,12 +17,75 @@ interface CryptoKeyPairMap {
  */
 export class RoamingProfile extends Profile {
 
+    protected deviceCertificates: CryptoKeyPairMap = {};
+
+    private profileData: Data<string | number> = new Data<string | number>();
+
     constructor(
         masterSalt: Uint8Array,
-        private readonly clientCertificate: CryptoKeyPair,
-        private agreements: CryptoKeyPairMap = {},
+        private readonly agreementKey: CryptoKeyPair,
+        data: any = undefined,
     ) {
         super(masterSalt);
+
+        if (
+            !agreementKey.publicKey.extractable
+            || !agreementKey.privateKey.extractable
+        ) {
+            throw new Error('Public and private key of the client certificate must be exportable.');
+        }
+
+        if ('object' === typeof data) {
+            for (const key in data) {
+                const value: unknown = data[key];
+
+                if (!['number', 'string'].includes(typeof value)) {
+                    throw new Error(`Encountered invalid value type for key "${key}" in data.`);
+                }
+
+                this.profileData.set(key, value as string | number);
+            }
+        }
+    }
+
+    public get data(): typeof this.profileData {
+        return this.profileData;
+    }
+
+    public async encrypt(masterKey: MasterKey): Promise<EncryptedProfile> {
+        const algorithm: Algorithm = {
+            name: 'AES-KW',
+        };
+
+        const deviceCertificates: any = {};
+        for (const [agreement, agreementKeyPair] of Object.entries(this.deviceCertificates)) {
+            for (const [keyType, key] of Object.entries(agreementKeyPair)) {
+                deviceCertificates[agreement][keyType] = this.crypto.wrapKey(
+                    'raw',
+                    key,
+                    this.agreementKey.privateKey,
+                    algorithm
+                );
+            }
+        }
+
+        const unencryptedData: ArrayBuffer = Buffer.from(JSON.stringify({
+            agreement_key: await this.exportKeyPair(this.agreementKey),
+            device_certificates: deviceCertificates,
+            profile_data: this.profileData,
+        }));
+
+        return new EncryptedProfile(
+            this.masterSalt,
+            await masterKey.encrypt(unencryptedData),
+        );
+    }
+
+    private async exportKeyPair(keyPair: CryptoKeyPair): Promise<any> {
+        return {
+            public: await this.crypto.exportKey('jwk', keyPair.publicKey),
+            private: await this.crypto.exportKey('jwk', keyPair.privateKey),
+        };
     }
 
 }
