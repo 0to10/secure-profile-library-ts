@@ -29,7 +29,7 @@ export class EncryptedProfile extends Profile {
         let decrypted: ArrayBuffer;
 
         try {
-            decrypted = await masterKey.decrypt(this.data)
+            decrypted = await masterKey.decrypt(this.data);
         } catch (e) {
             throw new Error('Unable to decrypt the profile using the given master key.');
         }
