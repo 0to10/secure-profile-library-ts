@@ -32,6 +32,20 @@ describe('RoamingProfile', (): void => {
         }).toThrowError('Public and private key of the client certificate must be exportable.');
     });
 
+    test('new with non-scalar data', async (): Promise<void> => {
+        const nonExportableKey: CryptoKeyPair = await keyPairFactory.generateEncryption(true);
+
+        const invalidData: any = {
+            invalid_entry: {
+                bla: false,
+            },
+        };
+
+        expect((): void => {
+            new RoamingProfile(Cryptography.randomBytes(200), nonExportableKey, invalidData);
+        }).toThrowError('Encountered invalid value type for key "invalid_entry" in data.');
+    });
+
     test('.encrypt()', async (): Promise<void> => {
         const profile: RoamingProfile = new RoamingProfile(
             Cryptography.randomBytes(200),
