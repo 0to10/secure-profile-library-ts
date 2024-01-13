@@ -1,6 +1,6 @@
 'use strict';
 
-import {CryptoKeyPairMap} from '../CryptoKeyPairMap';
+import {CryptoKeyPairMap} from '../CryptoKeyPairMap.type';
 import {EncryptedProfile} from './EncryptedProfile';
 import {MasterKey} from '../../MasterKey';
 import {Profile} from './Profile';

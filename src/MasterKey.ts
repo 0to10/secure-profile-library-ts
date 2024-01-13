@@ -1,7 +1,7 @@
 'use strict';
 
 import {Cryptography} from './Cryptography';
-import {MasterKeyVersion} from './MasterKeyVersion';
+import {MasterKeyVersion} from './MasterKeyVersion.type';
 
 const crypto: SubtleCrypto = Cryptography.getEngine();
 
