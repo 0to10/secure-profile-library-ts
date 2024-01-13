@@ -74,8 +74,8 @@ describe('MasterKey', (): void => {
         const encryptedData: string = 'AgAAngTYZVm9eVWOdZraZeL3url5dzUpkoodD1tw9oTlDoa7aayGTNKQI7wgmNwio4th6A6F4lKUzLVnfba00tXnXb7EfoYgOCBlCR/uwfIdEKcBnoX2aqaQU4Xma0YlzxkwBlVty99hjJSM0PXd29VwkllvJB5tu/nQI2WX3UI3NPl3uGTegA==';
 
         const buffer: Uint8Array = new Uint8Array(atob(encryptedData).split('').map((c: string): number => {
-            return c.charCodeAt(0); }
-        ));
+            return c.charCodeAt(0);
+        }));
 
         const masterKey: MasterKey = await createMasterKey();
 
