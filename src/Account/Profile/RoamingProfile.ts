@@ -35,21 +35,29 @@ export class RoamingProfile extends Profile {
             throw new Error('Public and private key of the client certificate must be exportable.');
         }
 
-        if ('object' === typeof data) {
-            for (const key in data) {
-                const value: unknown = data[key];
-
-                if (!['number', 'string'].includes(typeof value)) {
-                    throw new Error(`Encountered invalid value type for key "${key}" in data.`);
-                }
-
-                this.profileData.set(key, value as string | number);
-            }
-        }
+        this.data = data;
     }
 
     public get data(): typeof this.profileData {
         return this.profileData;
+    }
+
+    public set data(data: any) {
+        if ('object' === typeof data) {
+            this.setDataFromObject(data);
+        }
+    }
+
+    private setDataFromObject(data: Object): void {
+        for (const key in data) {
+            const value: unknown = data[key];
+
+            if (!['number', 'string'].includes(typeof value)) {
+                throw new Error(`Encountered invalid value type for key "${key}" in data.`);
+            }
+
+            this.profileData.set(key, value as string | number);
+        }
     }
 
     public async encrypt(masterKey: MasterKey): Promise<EncryptedProfile> {
