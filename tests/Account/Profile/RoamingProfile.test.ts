@@ -22,6 +22,7 @@ describe('RoamingProfile', (): void => {
         );
 
         expect(profile).toBeInstanceOf(Profile);
+        expect(profile.sealed).toBeFalsy();
     });
 
     test('new with non-exportable agreement key', async (): Promise<void> => {

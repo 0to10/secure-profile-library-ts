@@ -10,7 +10,7 @@ import {Profile} from '../../../src/Account/Profile/Profile';
 
 class TestProfile extends Profile {
     constructor(masterSalt: Uint8Array) {
-        super(masterSalt);
+        super(masterSalt, false);
     }
 }
 

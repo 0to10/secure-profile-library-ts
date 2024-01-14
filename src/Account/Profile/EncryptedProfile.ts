@@ -22,7 +22,7 @@ export class EncryptedProfile extends Profile {
         masterSalt: Uint8Array,
         private readonly data: ArrayBuffer,
     ) {
-        super(masterSalt);
+        super(masterSalt, true);
     }
 
     public async decrypt(masterKey: MasterKey): Promise<RoamingProfile> {

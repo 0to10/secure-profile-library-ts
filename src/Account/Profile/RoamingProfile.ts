@@ -26,7 +26,7 @@ export class RoamingProfile extends Profile {
         private readonly agreementKey: CryptoKeyPair,
         data: any = undefined,
     ) {
-        super(masterSalt);
+        super(masterSalt, false);
 
         if (
             !agreementKey.publicKey.extractable

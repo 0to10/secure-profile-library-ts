@@ -12,9 +12,11 @@ describe('EncryptedProfile', (): void => {
 
     const salt: Uint8Array = Cryptography.randomBytes(200);
 
-    // test('new', async (): Promise<void> => {
-    //
-    // });
+    test('new', async (): Promise<void> => {
+        const encryptedProfile: EncryptedProfile = new EncryptedProfile(salt, Buffer.from(''));
+
+        expect(encryptedProfile.sealed).toBeTruthy();
+    });
 
     test('decrypt() fails with invalid data', async (): Promise<void> => {
         const encryptedProfile: EncryptedProfile = new EncryptedProfile(
