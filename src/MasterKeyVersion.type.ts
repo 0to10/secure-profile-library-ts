@@ -12,4 +12,4 @@ export type MasterKeyVersion = {
         name: string;
         iv_length: number;
     };
-}
+};

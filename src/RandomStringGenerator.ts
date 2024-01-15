@@ -3,7 +3,7 @@
 type Seed = {
     label: string;
     value: string;
-}
+};
 
 /**
  * RandomStringGenerator

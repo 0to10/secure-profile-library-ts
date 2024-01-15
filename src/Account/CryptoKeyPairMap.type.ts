@@ -8,4 +8,4 @@
  */
 export type CryptoKeyPairMap = {
     [key: string]: CryptoKeyPair | undefined;
-}
+};
