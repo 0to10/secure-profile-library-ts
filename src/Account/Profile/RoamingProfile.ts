@@ -48,7 +48,7 @@ export class RoamingProfile extends Profile {
         }
     }
 
-    private setDataFromObject(data: Object): void {
+    private setDataFromObject(data: object): void {
         for (const key in data) {
             const value: unknown = data[key];
 
