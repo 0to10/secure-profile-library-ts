@@ -2,10 +2,10 @@
     "compileOnSave": false,
     "compilerOptions": {
         "baseUrl": "./",
-        "outDir": "./dist/out-tsc",
-        "sourceMap": true,
-        "declaration": false,
-        "module": "CommonJS",
+        "outFile": "./dist/index.js",
+        "sourceMap": false,
+        "declaration": true,
+        "module": "AMD",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "esModuleInterop": true,
@@ -14,11 +14,14 @@
         "importHelpers": true,
         "target": "ES2019",
         "typeRoots": [
-            "node_modules/@types",
+            "node_modules/@types"
         ],
         "lib": [
             "es2019",
-            "dom",
-        ],
+            "dom"
+        ]
     },
+    "include": [
+        "src/",
+    ]
 }
