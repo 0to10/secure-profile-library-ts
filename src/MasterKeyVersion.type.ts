@@ -1,5 +1,7 @@
 'use strict';
 
+type Algorithms = Algorithm | RsaOaepParams | AesCtrParams | AesCbcParams | AesGcmParams;
+
 /**
  * MasterKeyVersion
  *
@@ -8,8 +10,7 @@
  */
 export type MasterKeyVersion = {
     number: number;
-    algorithm: {
-        name: string;
+    algorithm: Algorithms & {
         iv_length: number;
     };
 };
