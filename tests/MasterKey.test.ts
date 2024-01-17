@@ -58,14 +58,8 @@ describe('MasterKey', (): void => {
         const masterKey: MasterKey = await createMasterKey();
 
         await expect(async (): Promise<void> => {
-            await masterKey.encrypt(Buffer.from(''), {
-                number: 256,
-                algorithm: {
-                    name: 'test',
-                    iv_length: 5,
-                },
-            });
-        }).rejects.toThrowError('Version numbers above 255 are not supported');
+            await masterKey.encrypt(Buffer.from(''), 256);
+        }).rejects.toThrowError('Version 256 does not exist.');
     });
 
     test('.decrypt()', async (): Promise<void> => {

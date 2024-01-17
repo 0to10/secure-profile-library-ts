@@ -1,17 +1,11 @@
 'use strict';
 
 import {Cryptography} from './Cryptography';
+import {CryptoParameters} from './CryptoParameters.type';
 import {MasterKeyVersion} from './MasterKeyVersion.type';
+import {CryptoVersions} from './CryptoVersions';
 
 const crypto: SubtleCrypto = Cryptography.getEngine();
-
-const DEFAULT_VERSION: MasterKeyVersion = {
-    number: 0,
-    algorithm: {
-        name: 'AES-GCM',
-        iv_length: 96,
-    },
-};
 
 /**
  * MasterKey
@@ -21,25 +15,28 @@ const DEFAULT_VERSION: MasterKeyVersion = {
  */
 export class MasterKey {
 
+    private readonly versions: CryptoVersions = new CryptoVersions();
+
     constructor(
         private readonly key: CryptoKey,
-        private readonly versions: Array<MasterKeyVersion> = [DEFAULT_VERSION],
     ) {
     }
 
     public async encrypt(
         data: ArrayBuffer,
-        version: MasterKeyVersion = DEFAULT_VERSION,
+        versionNumber: number = 0,
     ): Promise<ArrayBuffer> {
-        if (version.number > 255) {
-            throw new Error('Version numbers above 255 are not supported');
+        if (!this.versions.has(versionNumber)) {
+            throw new Error(`Version ${versionNumber} does not exist.`);
         }
+
+        const version: MasterKeyVersion = this.versions.get(versionNumber);
 
         const VERSION_LENGTH: number = 1;
 
         const iv: ArrayBuffer = Cryptography.randomBytes(version.algorithm.iv_length);
 
-        const params: AesGcmParams = {
+        const params: CryptoParameters = {
             name: version.algorithm.name,
             iv,
         };
@@ -87,14 +84,7 @@ export class MasterKey {
             versionNumber |= encrypted[i] << (i * 8);
         }
 
-        return this.versions.find(version => {
-            let currentVersionNumber: number = 0;
-            for (let i = 0; i < 1; i++) {
-                currentVersionNumber |= version.number[i] << (i * 8);
-            }
-
-            return versionNumber === currentVersionNumber;
-        });
+        return this.versions.get(versionNumber);
     }
 
     private get crypto(): SubtleCrypto {
