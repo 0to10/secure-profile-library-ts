@@ -17,6 +17,28 @@ npm install --save @0to10/secure-profiles
 ```
 
 
+### Configuration
+
+> All configuration must be done before using any other structures provided by this package, or
+> risk ending with an unstable state and/or corrupted data.
+
+Configure the available cryptography parameters. Example below:
+
+```typescript
+import {CryptoVersions} from '@0to10/secure-profile';
+
+CryptoVersions.configure([
+    {
+        number: 1,
+        algorithm: {
+            name: 'AES-CTR',
+            iv_length: 64,
+        },
+    },
+]);
+```
+
+
 ### Create a profile
 
 Below is an example of how to create a new profile, using the `ProfileFactory` class
