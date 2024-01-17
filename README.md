@@ -25,7 +25,7 @@ npm install --save @0to10/secure-profiles
 Configure the available cryptography parameters. Example below:
 
 ```typescript
-import {CryptoVersions} from '@0to10/secure-profile';
+import {CryptoVersions} from '@0to10/secure-profiles';
 
 CryptoVersions.configure([
     {
@@ -51,7 +51,7 @@ authorised device, and must never leave that device in its unencrypted form.
 ```typescript
 'use strict';
 
-import {ProfileFactory, RoamingProfile} from '0to10/secure-profile';
+import {ProfileFactory, RoamingProfile} from '@0to10/secure-profiles';
 
 const factory: ProfileFactory = new ProfileFactory();
 
@@ -71,7 +71,7 @@ a profile instance **must** refuse storing any unsealed profiles.
 ```typescript
 'use strict';
 
-import {EncryptedProfile, Profile, ProfileFactory} from '0to10/secure-profile';
+import {EncryptedProfile, Profile, ProfileFactory} from '@0to10/secure-profiles';
 
 const factory: ProfileFactory = new ProfileFactory();
 
