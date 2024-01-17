@@ -2,39 +2,31 @@
 
 import {describe, expect, test} from '@jest/globals';
 
-
 import {CryptoVersions} from '../src/CryptoVersions';
 
+CryptoVersions.configure([
+    {
+        number: 1,
+        algorithm: {
+            name: 'test',
+            iv_length: 1,
+        },
+    },
+]);
 
 describe('CryptoVersions', (): void => {
 
     test('new', (): void => {
-        const first: CryptoVersions = new CryptoVersions();
-        expect(first.has(0)).toBeTruthy();
-        expect(first.has(1)).toBeFalsy();
-
-        const second: CryptoVersions = new CryptoVersions([]);
-        expect(second.has(0)).toBeTruthy();
-        expect(second.has(1)).toBeFalsy();
-
-        const third: CryptoVersions = new CryptoVersions([
-            {
-                number: 1,
-                algorithm: {
-                    name: 'test',
-                    iv_length: 1,
-                },
-            },
-        ]);
-
-        expect(third.has(0)).toBeTruthy();
-        expect(third.has(1)).toBeTruthy();
-        expect(third.has(2)).toBeFalsy();
+        const instance: CryptoVersions = new CryptoVersions();
+        expect(instance.has(0)).toBeTruthy();
+        expect(instance.has(1)).toBeTruthy();
+        expect(instance.has(2)).toBeFalsy();
+        expect(instance.has(55)).toBeFalsy();
     });
 
-    test('new with duplicate version', (): void => {
+    test('.configure() with duplicate version', (): void => {
         expect((): void => {
-            new CryptoVersions([
+            CryptoVersions.configure([
                 {
                     number: 0,
                     algorithm: {
@@ -46,14 +38,12 @@ describe('CryptoVersions', (): void => {
         }).toThrowError('Duplicate version detected with number 0');
     });
 
-    const testVersions: CryptoVersions = new CryptoVersions([
-        // Omitted
-    ]);
-
     test('.get', (): void => {
-        expect(testVersions.has(0)).toBeTruthy();
+        const instance: CryptoVersions = new CryptoVersions();
 
-        const version: any = testVersions.get(0);
+        expect(instance.has(0)).toBeTruthy();
+
+        const version: any = instance.get(0);
 
         expect(version).toMatchObject({
             number: 0,
@@ -63,7 +53,7 @@ describe('CryptoVersions', (): void => {
             },
         });
 
-        expect(testVersions.get(3456)).toBeUndefined();
+        expect(instance.get(3456)).toBeUndefined();
     });
 
 });

@@ -19,17 +19,17 @@ const DEFAULT_VERSION: MasterKeyVersion = {
  */
 export class CryptoVersions {
 
-    private readonly versions: { [key: number]: MasterKeyVersion; } = {
+    private static versions: { [key: number]: MasterKeyVersion; } = {
         [DEFAULT_VERSION_NUMBER]: DEFAULT_VERSION,
     };
 
-    constructor(
+    public static configure(
         versions: Array<MasterKeyVersion> = [],
-    ) {
+    ): void {
         for (const version of versions) {
             const number: number = version.number;
 
-            if (this.has(number)) {
+            if (CryptoVersions.versions.hasOwnProperty(number)) {
                 throw new Error(`Duplicate version detected with number ${number}`);
             }
 
@@ -38,11 +38,11 @@ export class CryptoVersions {
     }
 
     public get(version: number): MasterKeyVersion | undefined {
-        return this.versions[version];
+        return CryptoVersions.versions[version];
     }
 
     public has(version: number): boolean {
-        return this.versions.hasOwnProperty(version);
+        return CryptoVersions.versions.hasOwnProperty(version);
     }
 
 }
