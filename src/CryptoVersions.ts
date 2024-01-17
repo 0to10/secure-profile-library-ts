@@ -29,7 +29,7 @@ export class CryptoVersions {
         for (const version of versions) {
             const number: number = version.number;
 
-            if (CryptoVersions.versions.hasOwnProperty(number)) {
+            if (undefined !== CryptoVersions.versions[number]) {
                 throw new Error(`Duplicate version detected with number ${number}`);
             }
 
@@ -42,7 +42,7 @@ export class CryptoVersions {
     }
 
     public has(version: number): boolean {
-        return CryptoVersions.versions.hasOwnProperty(version);
+        return undefined !== CryptoVersions.versions[version];
     }
 
 }
