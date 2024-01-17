@@ -1,5 +1,5 @@
 {
-  "name": "secure-profile-library-ts",
+  "name": "@0to10/secure-profiles",
   "description": "Typescript library for working with encrypted profiles",
   "author": "0TO10 <info@0to10.nl>",
   "homepage": "https://0to10.nl",
