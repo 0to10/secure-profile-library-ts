@@ -84,17 +84,3 @@ const encryptedProfile: EncryptedProfile = profile.encrypt(
 
 // Store the profile
 ```
-
-
-## Contributing
-
-This section contains information on how to contribute to this package.
-
-### Publishing the package
-
-Before attempting to publish the package, ensure that you have an `NPM_TOKEN` configured in your
-environment, that is authorised to publish to the organisation.
-
-```shell
-npm publish --access public
-```
