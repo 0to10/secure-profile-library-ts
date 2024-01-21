@@ -2,10 +2,10 @@
     "compileOnSave": false,
     "compilerOptions": {
         "baseUrl": "./",
-        "outFile": "./dist/index.js",
+        "outDir": "./dist",
         "sourceMap": false,
         "declaration": true,
-        "module": "AMD",
+        "module": "ESNext",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "esModuleInterop": true,
@@ -22,6 +22,7 @@
         ]
     },
     "exclude": [
-        "dist/**/*"
+        "dist/**/*",
+        "tests/**/*"
     ]
 }
