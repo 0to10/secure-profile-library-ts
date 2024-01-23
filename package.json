@@ -2,7 +2,7 @@
   "name": "@0to10/secure-profiles",
   "description": "Typescript library for working with encrypted profiles",
   "version": "1.0.0",
-  "author": "0TO10 <info@0to10.nl>",
+  "author": "0TO10 <open-source-software@0to10.nl>",
   "homepage": "https://0to10.nl",
   "keywords": [
     "cryptography",
