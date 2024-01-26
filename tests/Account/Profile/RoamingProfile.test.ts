@@ -24,10 +24,17 @@ describe('RoamingProfile', (): void => {
         const profile: RoamingProfile = new RoamingProfile(
             Cryptography.randomBytes(200),
             await keyPairFactory.generateEncryption(true),
+            {
+                test: 1,
+                keyboard: 'qwerty',
+            },
         );
 
         expect(profile).toBeInstanceOf(Profile);
         expect(profile.sealed).toBeFalsy();
+
+        expect(profile.data.get('test')).toStrictEqual(1);
+        expect(profile.data.get('keyboard')).toStrictEqual('qwerty');
     });
 
     test('new with non-exportable agreement key', async (): Promise<void> => {
