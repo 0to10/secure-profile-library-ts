@@ -66,8 +66,8 @@ export class RoamingProfile extends Profile {
         };
 
         const deviceCertificates: any = {};
-        for (const [agreement, agreementKeyPair] of Object.entries(this.deviceCertificates)) {
-            for (const [keyType, key] of Object.entries(agreementKeyPair)) {
+        for (const [agreement, deviceKeyPair] of Object.entries(this.deviceCertificates)) {
+            for (const [keyType, key] of Object.entries(deviceKeyPair)) {
                 deviceCertificates[agreement][keyType] = this.crypto.wrapKey(
                     'raw',
                     key,
