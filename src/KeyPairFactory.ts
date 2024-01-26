@@ -35,7 +35,7 @@ export class KeyPairFactory {
         keyUsages: Array<KeyUsage>,
         exportable: boolean = true,
     ): Promise<CryptoKeyPair> {
-        const algorithm: RsaHashedKeyGenParams | EcKeyGenParams = {
+        const algorithm: RsaHashedKeyGenParams = {
             name: 'RSA-OAEP',
             modulusLength: this.modulusLength,
             publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
