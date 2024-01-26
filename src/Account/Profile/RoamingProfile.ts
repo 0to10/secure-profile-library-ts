@@ -1,10 +1,10 @@
 'use strict';
 
-import {CryptoKeyPairMap} from '../CryptoKeyPairMap.type';
+// import {CryptoKeyPairMap} from '../CryptoKeyPairMap.type';
+import {Data} from '../Data';
 import {EncryptedProfile} from './EncryptedProfile';
 import {MasterKey} from '../../MasterKey';
 import {Profile} from './Profile';
-import {Data} from '../Data';
 
 /**
  * RoamingProfile
@@ -17,7 +17,7 @@ import {Data} from '../Data';
  */
 export class RoamingProfile extends Profile {
 
-    protected deviceCertificates: CryptoKeyPairMap = {};
+    // protected deviceCertificates: CryptoKeyPairMap = {};
 
     private profileData: Data<string | number> = new Data<string | number>();
 
@@ -61,21 +61,21 @@ export class RoamingProfile extends Profile {
     }
 
     public async encrypt(masterKey: MasterKey): Promise<EncryptedProfile> {
-        const algorithm: Algorithm = {
-            name: 'AES-KW',
-        };
+        // const algorithm: Algorithm = {
+        //     name: 'AES-KW',
+        // };
 
         const deviceCertificates: any = {};
-        for (const [agreement, deviceKeyPair] of Object.entries(this.deviceCertificates)) {
-            for (const [keyType, key] of Object.entries(deviceKeyPair)) {
-                deviceCertificates[agreement][keyType] = this.crypto.wrapKey(
-                    'raw',
-                    key,
-                    this.agreementKey.privateKey,
-                    algorithm
-                );
-            }
-        }
+        // for (const [agreement, deviceKeyPair] of Object.entries(this.deviceCertificates)) {
+        //     for (const [keyType, key] of Object.entries(deviceKeyPair)) {
+        //         deviceCertificates[agreement][keyType] = this.crypto.wrapKey(
+        //             'raw',
+        //             key,
+        //             this.agreementKey.privateKey,
+        //             algorithm
+        //         );
+        //     }
+        // }
 
         const unencryptedData: ArrayBuffer = Buffer.from(JSON.stringify({
             agreement_key: await this.exportKeyPair(this.agreementKey),
