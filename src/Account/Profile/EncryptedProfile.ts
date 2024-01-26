@@ -1,9 +1,11 @@
 'use strict';
 
+import {CryptoKey} from '@peculiar/webcrypto';
+
+import {Configuration} from '../../Configuration';
 import {MasterKey} from '../../MasterKey';
 import {Profile} from './Profile';
 import {RoamingProfile} from './RoamingProfile';
-import {CryptoKey} from '@peculiar/webcrypto';
 
 const decoder: TextDecoder = new TextDecoder();
 
@@ -50,10 +52,7 @@ export class EncryptedProfile extends Profile {
     }
 
     private async importKey(data: { public: any; private: any; }): Promise<CryptoKeyPair> {
-        const algorithm: any = {
-            name: 'RSA-OAEP',
-            hash: 'SHA-256',
-        };
+        const algorithm: RsaHashedImportParams | EcKeyImportParams = Configuration.encryptionImportAlgorithm;
 
         const privateKey: CryptoKey = await this.crypto.importKey('jwk', data.private, algorithm, true, ['encrypt', 'decrypt']);
         const publicKey: CryptoKey = await this.crypto.importKey('jwk', data.public, algorithm, true, ['encrypt', 'decrypt']);
