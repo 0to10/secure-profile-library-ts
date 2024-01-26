@@ -18,7 +18,12 @@ export class ProfileFactory {
     private readonly keyPairFactory: KeyPairFactory;
 
     constructor() {
-        this.keyPairFactory = new KeyPairFactory(4096);
+        this.keyPairFactory = new KeyPairFactory({
+            name: 'RSA-OAEP',
+            modulusLength: 4096,
+            publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+            hash: 'SHA-256',
+        });
     }
 
     public async create(): Promise<Profile> {

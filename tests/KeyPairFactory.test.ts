@@ -11,11 +11,21 @@ describe('KeyPairFactory', (): void => {
 
     test('new fails with insecure modulus length', (): void => {
         expect((): void => {
-            new KeyPairFactory(2047);
+            new KeyPairFactory({
+            name: 'RSA-OAEP',
+            modulusLength: 2047,
+            publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+            hash: 'SHA-256',
+        });
         }).toThrowError('Modulus length below 2048 bits is considered unsafe');
     });
 
-    const factory: KeyPairFactory = new KeyPairFactory(4096);
+    const factory: KeyPairFactory = new KeyPairFactory({
+            name: 'RSA-OAEP',
+            modulusLength: 4096,
+            publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+            hash: 'SHA-256',
+        });
 
     test('generateEncryption()', async (): Promise<void> => {
         const keyPair: CryptoKeyPair = await factory.generateEncryption(false);

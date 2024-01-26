@@ -13,7 +13,12 @@ import {RoamingProfile} from '../../../src/Account/Profile/RoamingProfile';
 
 describe('RoamingProfile', (): void => {
 
-    const keyPairFactory: KeyPairFactory = new KeyPairFactory(2048);
+    const keyPairFactory: KeyPairFactory = new KeyPairFactory({
+        name: 'RSA-OAEP',
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        hash: 'SHA-256',
+    });
 
     test('new', async (): Promise<void> => {
         const profile: RoamingProfile = new RoamingProfile(

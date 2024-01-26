@@ -13,9 +13,12 @@ export class KeyPairFactory {
     private readonly crypto: SubtleCrypto;
 
     constructor(
-        private readonly modulusLength: number,
+        private readonly algorithm: RsaHashedKeyGenParams | EcKeyGenParams,
     ) {
-        if (modulusLength < 2048) {
+        if (
+            'modulusLength' in algorithm
+            && algorithm.modulusLength < 2048
+        ) {
             throw new Error('Modulus length below 2048 bits is considered unsafe');
         }
 
@@ -28,21 +31,7 @@ export class KeyPairFactory {
             'decrypt',
         ];
 
-        return this.generate(usages, exportable);
-    }
-
-    private async generate(
-        keyUsages: Array<KeyUsage>,
-        exportable: boolean = true,
-    ): Promise<CryptoKeyPair> {
-        const algorithm: RsaHashedKeyGenParams = {
-            name: 'RSA-OAEP',
-            modulusLength: this.modulusLength,
-            publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-            hash: 'SHA-256',
-        };
-
-        return this.crypto.generateKey(algorithm, exportable, keyUsages);
+        return this.crypto.generateKey(this.algorithm, exportable, usages);
     }
 
 }
