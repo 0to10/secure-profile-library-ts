@@ -55,8 +55,8 @@ export class EncryptedProfile extends Profile {
             hash: 'SHA-256',
         };
 
-        const privateKey: CryptoKey = await this.crypto.importKey('jwk', data.private, algorithm, true, ['encrypt']);
-        const publicKey: CryptoKey = await this.crypto.importKey('jwk', data.public, algorithm, true, ['encrypt']);
+        const privateKey: CryptoKey = await this.crypto.importKey('jwk', data.private, algorithm, true, ['encrypt', 'decrypt']);
+        const publicKey: CryptoKey = await this.crypto.importKey('jwk', data.public, algorithm, true, ['encrypt', 'decrypt']);
 
         return new class implements CryptoKeyPair {
             privateKey: CryptoKey = privateKey;
