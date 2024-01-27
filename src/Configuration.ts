@@ -1,5 +1,7 @@
 'use strict';
 
+import {ObjectHelper} from './Util/ObjectHelper';
+
 /**
  * Configuration
  *
@@ -16,20 +18,10 @@ export class Configuration {
     };
 
     public static get encryptionImportAlgorithm(): RsaHashedImportParams | EcKeyImportParams {
-        return Configuration.removePropertiesFromObject(Configuration.encryptionKeyGenAlgorithm, [
+        return ObjectHelper.removeProperties(Configuration.encryptionKeyGenAlgorithm, [
             'modulusLength',
             'publicExponent',
         ]) as RsaHashedImportParams | EcKeyImportParams;
-    }
-
-    private static removePropertiesFromObject(object: object, removeProperties: string[]): object {
-        for (const removeProperty of removeProperties) {
-            if (removeProperty in object) {
-                delete object[removeProperty];
-            }
-        }
-
-        return object;
     }
 
 }
