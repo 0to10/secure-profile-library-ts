@@ -1,11 +1,11 @@
 'use strict';
 
+import {CryptoKey} from '@peculiar/webcrypto';
 import {scrypt} from 'scrypt-js';
 import unorm from 'unorm';
 
 import {Cryptography} from '../../Cryptography';
 import {MasterKey} from '../../MasterKey';
-import {CryptoKey} from '@peculiar/webcrypto';
 
 const crypto: SubtleCrypto = Cryptography.getEngine();
 const textEncoder: TextEncoder = new TextEncoder();
