@@ -6,8 +6,6 @@ import {KeyPairFactory} from '../../KeyPairFactory';
 import {Profile} from './Profile';
 import {RoamingProfile} from './RoamingProfile';
 
-const MASTER_SALT_BITS: number = 256;
-
 /**
  * ProfileFactory
  *
@@ -26,7 +24,7 @@ export class ProfileFactory {
         const keyPair: CryptoKeyPair = await this.keyPairFactory.generateEncryption(true);
 
         return new RoamingProfile(
-            Cryptography.randomBytes(MASTER_SALT_BITS / 8),
+            Cryptography.randomBytes(Configuration.masterSalt.bytes),
             keyPair,
         );
     }

@@ -2,13 +2,12 @@
 
 import {CryptoKey} from '@peculiar/webcrypto';
 
+import {Configuration} from '../../Configuration';
 import {Cryptography} from '../../Cryptography';
 import {KeyDerivation} from '../../Cryptography/KeyDerivation';
 import {MasterKey} from '../../MasterKey';
 
 const crypto: SubtleCrypto = Cryptography.getEngine();
-
-const MASTER_KEY_BITS: number = 256;
 
 /**
  * Profile
@@ -30,15 +29,10 @@ export abstract class Profile {
         const keyData: Uint8Array = await KeyDerivation.fromPassword(
             password,
             this.masterSalt,
-            MASTER_KEY_BITS / 8,
+            Configuration.masterKey.length / 8,
         );
 
-        const algorithm: AesKeyGenParams = {
-            name: 'AES-GCM',
-            length: MASTER_KEY_BITS,
-        };
-
-        const cryptoKey: CryptoKey = await this.crypto.importKey('raw', keyData, algorithm, false, [
+        const cryptoKey: CryptoKey = await this.crypto.importKey('raw', keyData, Configuration.masterKey, false, [
             'encrypt',
             'decrypt',
         ]);

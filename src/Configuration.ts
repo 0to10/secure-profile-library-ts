@@ -10,6 +10,16 @@ import {ObjectHelper} from './Util/ObjectHelper';
  */
 export class Configuration {
 
+    public static readonly masterKey: AesKeyGenParams = {
+        name: 'AES-GCM',
+        length: 256,
+    };
+
+    public static readonly masterSalt: { bytes: number; } = {
+        // 32 bytes = 256 bits
+        bytes: 32,
+    };
+
     public static encryptionKeyGenAlgorithm: RsaHashedKeyGenParams | EcKeyGenParams = {
         name: 'RSA-OAEP',
         modulusLength: 4096,
