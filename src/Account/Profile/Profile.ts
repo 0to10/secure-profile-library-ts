@@ -26,10 +26,12 @@ export abstract class Profile {
     public async deriveMasterKey(
         password: string,
     ): Promise<MasterKey> {
+        const keyLength: number = Configuration.masterKey.length / 8;
+
         const keyData: Uint8Array = await KeyDerivation.fromPassword(
             password,
             this.masterSalt,
-            Configuration.masterKey.length / 8,
+            keyLength,
         );
 
         const cryptoKey: CryptoKey = await this.crypto.importKey('raw', keyData, Configuration.masterKey, false, [
