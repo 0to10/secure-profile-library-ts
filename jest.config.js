@@ -4,6 +4,9 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
   detectOpenHandles: true,
+  testMatch: [
+      '**/tests/**/*.test.ts',
+  ],
   // collectCoverageFrom: [
   //     './src/**',
   // ],
