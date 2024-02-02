@@ -19,7 +19,7 @@ export class RoamingProfile extends Profile {
 
     // protected deviceCertificates: CryptoKeyPairMap = {};
 
-    private profileData: Data<string | number> = new Data<string | number>();
+    private _data: Data<string | number> = new Data<string | number>();
 
     constructor(
         masterSalt: Uint8Array,
@@ -38,8 +38,8 @@ export class RoamingProfile extends Profile {
         this.data = data;
     }
 
-    public get data(): typeof this.profileData {
-        return this.profileData;
+    public get data(): typeof this._data {
+        return this._data;
     }
 
     public set data(data: any) {
@@ -56,7 +56,7 @@ export class RoamingProfile extends Profile {
                 throw new Error(`Encountered invalid value type for key "${key}" in data.`);
             }
 
-            this.profileData.set(key, value as string | number);
+            this._data.set(key, value as string | number);
         }
     }
 
@@ -80,7 +80,7 @@ export class RoamingProfile extends Profile {
         const unencryptedData: ArrayBuffer = Buffer.from(JSON.stringify({
             agreement_key: await this.exportKeyPair(this.agreementKey),
             device_certificates: deviceCertificates,
-            profile_data: this.profileData,
+            profile_data: this._data,
         }));
 
         return new EncryptedProfile(
