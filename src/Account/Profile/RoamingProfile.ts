@@ -19,12 +19,12 @@ export class RoamingProfile extends Profile {
 
     // protected deviceCertificates: CryptoKeyPairMap = {};
 
-    private _data: Data<string | number> = new Data<string | number>();
+    private _data: Data = new Data();
 
     constructor(
         masterSalt: Uint8Array,
         private readonly agreementKey: CryptoKeyPair,
-        data: any = undefined,
+        data: Data = undefined,
     ) {
         super(masterSalt, false);
 
@@ -35,29 +35,17 @@ export class RoamingProfile extends Profile {
             throw new Error('Public and private key of the client certificate must be exportable.');
         }
 
-        this.data = data;
+        if (undefined !== data) {
+            this.data = data;
+        }
     }
 
-    public get data(): typeof this._data {
+    public get data(): Data {
         return this._data;
     }
 
-    public set data(data: any) {
-        if ('object' === typeof data) {
-            this.setDataFromObject(data);
-        }
-    }
-
-    private setDataFromObject(data: object): void {
-        for (const key in data) {
-            const value: unknown = data[key];
-
-            if (!['number', 'string'].includes(typeof value)) {
-                throw new Error(`Encountered invalid value type for key "${key}" in data.`);
-            }
-
-            this._data.set(key, value as string | number);
-        }
+    public set data(data: Data) {
+        this._data = data;
     }
 
     public async encrypt(masterKey: MasterKey): Promise<EncryptedProfile> {

@@ -7,7 +7,7 @@ import {Data} from '../../src/Account/Data';
 
 describe('Data', (): void => {
 
-    const data: Data<string> = new Data<string>();
+    const data: Data = new Data();
 
     test('.get() and .set()', async (): Promise<void> => {
         data.set('test', 'something');

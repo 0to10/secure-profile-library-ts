@@ -3,6 +3,7 @@
 import {CryptoKey} from '@peculiar/webcrypto';
 
 import {Configuration} from '../../Configuration';
+import {Data} from '../Data';
 import {MasterKey} from '../../MasterKey';
 import {Profile} from './Profile';
 import {RoamingProfile} from './RoamingProfile';
@@ -36,19 +37,21 @@ export class EncryptedProfile extends Profile {
             throw new Error('Unable to decrypt the profile using the given master key.');
         }
 
-        let decoded: any;
-
-        try {
-            decoded = JSON.parse(decoder.decode(decrypted));
-        } catch (e) {
-            throw new Error('Unable to parse the decrypted profile. It may be corrupted.');
-        }
+        const decoded: any = this.decodeDecrypted(decrypted);
 
         return new RoamingProfile(
             this.masterSalt,
             await this.importKey(decoded.agreement_key),
-            decoded.profile_data ?? {},
+            Data.fromObject(decoded.profile_data ?? {}),
         );
+    }
+
+    private decodeDecrypted(decrypted: ArrayBuffer): any {
+        try {
+            return JSON.parse(decoder.decode(decrypted));
+        } catch (e) {
+            throw new Error('Unable to parse the decrypted profile. It may be corrupted.');
+        }
     }
 
     private async importKey(data: { public: any; private: any; }): Promise<CryptoKeyPair> {

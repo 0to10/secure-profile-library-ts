@@ -3,6 +3,7 @@
 import {describe, expect, test} from '@jest/globals';
 
 import {Cryptography} from '../../../src/Cryptography';
+import {Data} from '../../../src';
 import {EncryptedProfile} from '../../../src/Account/Profile/EncryptedProfile';
 import {KeyPairFactory} from '../../../src/KeyPairFactory';
 import {MasterKey} from '../../../src/MasterKey';
@@ -24,10 +25,10 @@ describe('RoamingProfile', (): void => {
         const profile: RoamingProfile = new RoamingProfile(
             Cryptography.randomBytes(200),
             await keyPairFactory.generateEncryption(true),
-            {
+            Data.fromObject({
                 test: 1,
                 keyboard: 'qwerty',
-            },
+            }),
         );
 
         expect(profile).toBeInstanceOf(Profile);
@@ -43,20 +44,6 @@ describe('RoamingProfile', (): void => {
         expect((): void => {
             new RoamingProfile(Cryptography.randomBytes(200), nonExportableKey);
         }).toThrowError('Public and private key of the client certificate must be exportable.');
-    });
-
-    test('new with non-scalar data', async (): Promise<void> => {
-        const nonExportableKey: CryptoKeyPair = await keyPairFactory.generateEncryption(true);
-
-        const invalidData: any = {
-            invalid_entry: {
-                bla: false,
-            },
-        };
-
-        expect((): void => {
-            new RoamingProfile(Cryptography.randomBytes(200), nonExportableKey, invalidData);
-        }).toThrowError('Encountered invalid value type for key "invalid_entry" in data.');
     });
 
     test('.encrypt()', async (): Promise<void> => {
