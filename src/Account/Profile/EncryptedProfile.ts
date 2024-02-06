@@ -39,11 +39,14 @@ export class EncryptedProfile extends Profile {
 
         const decoded: any = this.decodeDecrypted(decrypted);
 
-        return new RoamingProfile(
+        const profile: RoamingProfile = new RoamingProfile(
             this.masterSalt,
             await this.importKey(decoded.agreement_key),
-            Data.fromObject(decoded.profile_data ?? {}),
         );
+
+        profile.data = Data.fromObject(decoded.profile_data ?? {});
+
+        return profile;
     }
 
     private decodeDecrypted(decrypted: ArrayBuffer): any {

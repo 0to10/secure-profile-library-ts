@@ -24,7 +24,6 @@ export class RoamingProfile extends Profile {
     constructor(
         masterSalt: Uint8Array,
         private readonly agreementKey: CryptoKeyPair,
-        data: Data = undefined,
     ) {
         super(masterSalt, false);
 
@@ -33,10 +32,6 @@ export class RoamingProfile extends Profile {
             || !agreementKey.privateKey.extractable
         ) {
             throw new Error('Public and private key of the client certificate must be exportable.');
-        }
-
-        if (undefined !== data) {
-            this.data = data;
         }
     }
 

@@ -25,11 +25,12 @@ describe('RoamingProfile', (): void => {
         const profile: RoamingProfile = new RoamingProfile(
             Cryptography.randomBytes(200),
             await keyPairFactory.generateEncryption(true),
-            Data.fromObject({
-                test: 1,
-                keyboard: 'qwerty',
-            }),
         );
+
+        profile.data = Data.fromObject({
+            test: 1,
+            keyboard: 'qwerty',
+        });
 
         expect(profile).toBeInstanceOf(Profile);
         expect(profile.sealed).toBeFalsy();
