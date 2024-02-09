@@ -72,7 +72,7 @@ export class RoamingProfile extends Profile {
         );
     }
 
-    private async exportKeyPair(keyPair: CryptoKeyPair): Promise<any> {
+    private async exportKeyPair(keyPair: CryptoKeyPair): Promise<{ public: JsonWebKey; private: JsonWebKey; }> {
         return {
             public: await this.crypto.exportKey('jwk', keyPair.publicKey),
             private: await this.crypto.exportKey('jwk', keyPair.privateKey),
