@@ -16,26 +16,40 @@ const crypto: SubtleCrypto = Cryptography.getEngine();
  */
 export class KeyDerivation {
 
+    /**
+     * CPU/memory cost; increasing this increases the overall difficulty
+     *
+     * @private
+     */
+    private static readonly N: number = 32768;
+
+    /**
+     * Block size; increasing this increases the dependency on memory latency and bandwidth
+     *
+     * @private
+     */
+    private static readonly r: number = 8;
+
+    /**
+     * Parallelization cost; increasing this increases the dependency on multiprocessing
+     *
+     * @private
+     */
+    private static readonly p: number = 1;
+
     public static async fromPassword(password: string, salt: Uint8Array, length: number): Promise<Uint8Array> {
-        password = unorm.nfkc(password);
-
-        // The CPU/memory cost; increasing this increases the overall difficulty
-        const N: number = 32768;
-        // The block size; increasing this increases the dependency on memory latency and bandwidth
-        const r: number = 8;
-        // The parallelization cost; increasing this increases the dependency on multiprocessing
-        const p: number = 1;
-
         const encoder: TextEncoder = new TextEncoder();
+
+        password = unorm.nfkc(password);
 
         return scrypt(
             new Uint8Array(
                 await crypto.digest('SHA-256', encoder.encode(password))
             ),
             salt,
-            N,
-            r,
-            p,
+            KeyDerivation.N,
+            KeyDerivation.r,
+            KeyDerivation.p,
             length,
         );
     }
