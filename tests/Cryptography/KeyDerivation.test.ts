@@ -12,19 +12,19 @@ describe('KeyDerivation', (): void => {
             password: 'qwerty',
             salt: 'abcdefghijklmnopqrstuvwxyz',
             length: 10,
-            expectedKey: 'TP5OFcRUPZYfwA==',
+            expectedKey: 'Mf5HiMWJ/Yodgg==',
         },
         {
             password: 'somethingS3cr3t',
             salt: 'abcdefghijklmnopqrstuvwxyz',
             length: 40,
-            expectedKey: 'dUyPfjnjaHw4YNpDJRkY9nALYTaz7lwGTsT+PjBskRWYS5+55eON6g==',
+            expectedKey: 'd3tXcR8VmjGzFYisU2iJJ94cRW+5KGhHL7G7EvMZPb2970Z9mtGYOw==',
         },
         {
             password: 'do-not-forget',
             salt: 'abcdefghijklmnopqrstuvwxyz',
             length: 25,
-            expectedKey: '4oSl9a/1IZe2qRqQzvztysG5WuYMMlo8mA==',
+            expectedKey: '/54vKP4QcPJxwS+FpE2KPXu3q0Tjg6iLiQ==',
         },
     ])('.fromPassword($password, $salt, $length)', async ({password, salt, length, expectedKey}): Promise<void> => {
         const encoder: TextEncoder = new TextEncoder();

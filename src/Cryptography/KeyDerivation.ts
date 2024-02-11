@@ -4,6 +4,10 @@ import * as unorm from 'unorm';
 
 import {scrypt} from 'scrypt-js';
 
+import {Cryptography} from '../Cryptography';
+
+const crypto: SubtleCrypto = Cryptography.getEngine();
+
 /**
  * KeyDerivation
  *
@@ -25,7 +29,9 @@ export class KeyDerivation {
         const encoder: TextEncoder = new TextEncoder();
 
         return scrypt(
-            encoder.encode(password),
+            new Uint8Array(
+                await crypto.digest('SHA-256', encoder.encode(password))
+            ),
             salt,
             N,
             r,
