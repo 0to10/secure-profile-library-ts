@@ -3,7 +3,6 @@
 import {Configuration} from '../../Configuration';
 import {Cryptography} from '../../Cryptography';
 import {KeyPairFactory} from '../../KeyPairFactory';
-import {Profile} from './Profile';
 import {RoamingProfile} from './RoamingProfile';
 
 /**
@@ -20,7 +19,7 @@ export class ProfileFactory {
         this.keyPairFactory = new KeyPairFactory(Configuration.encryptionKeyGenAlgorithm);
     }
 
-    public async create(): Promise<Profile> {
+    public async create(): Promise<RoamingProfile> {
         const keyPair: CryptoKeyPair = await this.keyPairFactory.generateEncryption(true);
 
         return new RoamingProfile(
