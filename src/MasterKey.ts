@@ -5,8 +5,6 @@ import {CryptoParameters} from './CryptoParameters.type';
 import {MasterKeyVersion} from './MasterKeyVersion.type';
 import {CryptoVersions} from './CryptoVersions';
 
-const crypto: SubtleCrypto = Cryptography.getEngine();
-
 /**
  * MasterKey
  *
@@ -14,6 +12,8 @@ const crypto: SubtleCrypto = Cryptography.getEngine();
  * @license MIT
  */
 export class MasterKey {
+
+    private static readonly crypto: SubtleCrypto = Cryptography.getEngine();
 
     private readonly versions: CryptoVersions = new CryptoVersions();
 
@@ -41,7 +41,7 @@ export class MasterKey {
             iv,
         };
 
-        const promise: Promise<ArrayBuffer> = this.crypto.encrypt(params, this.key, data);
+        const promise: Promise<ArrayBuffer> = MasterKey.crypto.encrypt(params, this.key, data);
 
         const DATA_OFFSET: number = 1 + VERSION_LENGTH;
 
@@ -75,7 +75,7 @@ export class MasterKey {
 
         const data: ArrayBuffer = encrypted.slice(DATA_OFFSET + version.algorithm.iv_length);
 
-        return this.crypto.decrypt(params, this.key, data);
+        return MasterKey.crypto.decrypt(params, this.key, data);
     }
 
     private getVersionFromEncryptedData(encrypted: ArrayBuffer): MasterKeyVersion {
@@ -85,10 +85,6 @@ export class MasterKey {
         }
 
         return this.versions.get(versionNumber);
-    }
-
-    private get crypto(): SubtleCrypto {
-        return crypto;
     }
 
 }
