@@ -20,6 +20,10 @@ export class Configuration {
         bytes: 32,
     };
 
+    public static readonly asymmetricalKeyWrappingAlgorithm: RsaOaepParams = {
+        name: 'RSA-OAEP',
+    };
+
     public static encryptionKeyGenAlgorithm: RsaHashedKeyGenParams | EcKeyGenParams = {
         name: 'RSA-OAEP',
         modulusLength: 4096,
