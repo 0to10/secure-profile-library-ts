@@ -17,6 +17,18 @@ describe('Cryptography', (): void => {
         expect(engine).toBeInstanceOf(CryptoEngine);
     });
 
+    test.each([
+        {length: 128},
+        {length: 192},
+        {length: 256},
+    ])('.generateSymmetricKey($length)', async ({length}): Promise<void> => {
+        const key: CryptoKey = await Cryptography.generateSymmetricKey(length);
+
+        expect(key.type).toStrictEqual('secret');
+        expect(key.algorithm.name).toStrictEqual('AES-GCM');
+        expect((key.algorithm as any).length ?? '').toStrictEqual(length);
+    });
+
     // test('.wrapKeyAsymmetrical()', async (): Promise<void> => {
     //
     // });

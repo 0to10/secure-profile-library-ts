@@ -29,6 +29,20 @@ export class Cryptography {
         return engine;
     }
 
+    public static async generateSymmetricKey(length: number): Promise<CryptoKey> {
+        const crypto: pkijs.ICryptoEngine = Cryptography.getEngine();
+
+        const algorithm: AesKeyGenParams = {
+            name: 'AES-GCM',
+            length,
+        };
+
+        return crypto.generateKey(algorithm, true, [
+            'encrypt',
+            'decrypt',
+        ]);
+    }
+
     public static async wrapKeyAsymmetrical(
         key: CryptoKey,
         wrappingKey: CryptoKey,
