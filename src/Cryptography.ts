@@ -1,14 +1,12 @@
 'use strict';
 
-import * as pkijs from 'pkijs';
-
-import {Crypto as WebCrypto} from '@peculiar/webcrypto';
-import {CryptoEngine} from 'pkijs';
+import * as pki from 'pkijs';
+import * as web from '@peculiar/webcrypto';
 
 import {Configuration} from './Configuration';
 
-pkijs.setEngine('node', new CryptoEngine({
-    crypto: new WebCrypto(),
+pki.setEngine('node', new pki.CryptoEngine({
+    crypto: new web.Crypto(),
 }));
 
 /**
@@ -19,8 +17,8 @@ pkijs.setEngine('node', new CryptoEngine({
  */
 export class Cryptography {
 
-    public static getEngine(): pkijs.ICryptoEngine {
-        const engine: pkijs.ICryptoEngine | null = pkijs.getCrypto(true);
+    public static getEngine(): pki.ICryptoEngine {
+        const engine: pki.ICryptoEngine | null = pki.getCrypto(true);
 
         if (null === engine) {
             throw new Error('Unable to get cryptography engine.');
@@ -30,7 +28,7 @@ export class Cryptography {
     }
 
     public static async generateSymmetricKey(length: number): Promise<CryptoKey> {
-        const crypto: pkijs.ICryptoEngine = Cryptography.getEngine();
+        const crypto: pki.ICryptoEngine = Cryptography.getEngine();
 
         const algorithm: AesKeyGenParams = {
             name: 'AES-GCM',
@@ -51,7 +49,7 @@ export class Cryptography {
             throw new Error('Encryption key must be wrapped using a public or private key.');
         }
 
-        const crypto: pkijs.ICryptoEngine = Cryptography.getEngine();
+        const crypto: pki.ICryptoEngine = Cryptography.getEngine();
 
         return crypto.wrapKey(
             'raw',
@@ -72,7 +70,7 @@ export class Cryptography {
             throw new Error('Encryption key must be unwrapped using a public or private key.');
         }
 
-        const crypto: pkijs.ICryptoEngine = Cryptography.getEngine();
+        const crypto: pki.ICryptoEngine = Cryptography.getEngine();
 
         return crypto.unwrapKey(
             'raw',
@@ -90,7 +88,7 @@ export class Cryptography {
     }
 
     public static randomBytes(length: number): Uint8Array {
-        return pkijs.getRandomValues(new Uint8Array(length));
+        return pki.getRandomValues(new Uint8Array(length));
     }
 
 }
