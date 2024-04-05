@@ -60,8 +60,8 @@ export class EncryptedProfile extends Profile {
     private async importKey(data: { public: JsonWebKey; private: JsonWebKey; }): Promise<CryptoKeyPair> {
         const algorithm: RsaHashedImportParams | EcKeyImportParams = Configuration.encryptionImportAlgorithm;
 
-        const privateKey: CryptoKey = await this.crypto.importKey('jwk', data.private, algorithm, true, ['encrypt', 'decrypt']);
-        const publicKey: CryptoKey = await this.crypto.importKey('jwk', data.public, algorithm, true, ['encrypt', 'decrypt']);
+        const privateKey: CryptoKey = await this.crypto.importKey('jwk', data.private, algorithm, true, data.private.key_ops as KeyUsage[]);
+        const publicKey: CryptoKey = await this.crypto.importKey('jwk', data.public, algorithm, true, data.public.key_ops as KeyUsage[]);
 
         return new class implements CryptoKeyPair {
             privateKey: CryptoKey = privateKey;
