@@ -2,8 +2,9 @@
 
 import {describe, expect, test} from '@jest/globals';
 
+import {Configuration} from '../../../src/Configuration';
 import {Cryptography} from '../../../src/Cryptography';
-import {Data} from '../../../src';
+import {Data} from '../../../src/Account/Data';
 import {EncryptedProfile} from '../../../src/Account/Profile/EncryptedProfile';
 import {KeyPairFactory} from '../../../src/KeyPairFactory';
 import {MasterKey} from '../../../src/MasterKey';
@@ -14,12 +15,7 @@ import {RoamingProfile} from '../../../src/Account/Profile/RoamingProfile';
 
 describe('RoamingProfile', (): void => {
 
-    const keyPairFactory: KeyPairFactory = new KeyPairFactory({
-        name: 'RSA-OAEP',
-        modulusLength: 2048,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-        hash: 'SHA-256',
-    });
+    const keyPairFactory: KeyPairFactory = new KeyPairFactory(Configuration.encryptionKeyGenAlgorithm);
 
     test('new', async (): Promise<void> => {
         const profile: RoamingProfile = new RoamingProfile(
@@ -45,6 +41,30 @@ describe('RoamingProfile', (): void => {
         expect((): void => {
             new RoamingProfile(Cryptography.randomBytes(200), nonExportableKey);
         }).toThrowError('Public and private key of the client certificate must be exportable.');
+    });
+
+    test('.agreementPublicKey()', async (): Promise<void> => {
+        const keypair: CryptoKeyPair = await keyPairFactory.generateEncryption(true);
+
+        const profile: RoamingProfile = new RoamingProfile(Cryptography.randomBytes(200), keypair);
+
+        expect(profile.agreementPublicKey()).toStrictEqual(keypair.publicKey);
+    });
+
+    test('.rotateAgreementKey()', async (): Promise<void> => {
+        const keypair: CryptoKeyPair = await keyPairFactory.generateEncryption(true);
+
+        const profile: RoamingProfile = new RoamingProfile(Cryptography.randomBytes(200), keypair);
+        await profile.rotateAgreementKey();
+
+        const newPublicKey: CryptoKey = profile.agreementPublicKey();
+
+        // expect(newPublicKey).not.toStrictEqual(keypair.publicKey);
+
+        expect(newPublicKey.algorithm).toStrictEqual(keypair.publicKey.algorithm);
+        expect(newPublicKey.usages).toStrictEqual(keypair.publicKey.usages);
+        expect(newPublicKey.extractable).toStrictEqual(keypair.publicKey.extractable);
+        expect(newPublicKey.type).toStrictEqual(keypair.publicKey.type);
     });
 
     test('.encrypt()', async (): Promise<void> => {

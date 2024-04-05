@@ -5,6 +5,8 @@ import {Data} from '../Data';
 import {EncryptedProfile} from './EncryptedProfile';
 import {MasterKey} from '../../MasterKey';
 import {Profile} from './Profile';
+import {KeyPairFactory} from '../../KeyPairFactory';
+import {Configuration} from '../../Configuration';
 
 /**
  * RoamingProfile
@@ -18,12 +20,13 @@ import {Profile} from './Profile';
 export class RoamingProfile extends Profile {
 
     // protected deviceCertificates: CryptoKeyPairMap = {};
+    private agreementKeys: Array<CryptoKeyPair> = [];
 
     private _data: Data = new Data();
 
     constructor(
         masterSalt: Uint8Array,
-        private readonly agreementKey: CryptoKeyPair,
+        private agreementKey: CryptoKeyPair,
     ) {
         super(masterSalt, false);
 
@@ -33,6 +36,19 @@ export class RoamingProfile extends Profile {
         ) {
             throw new Error('Public and private key of the client certificate must be exportable.');
         }
+    }
+
+    public agreementPublicKey(): CryptoKey {
+        return this.agreementKey.publicKey;
+    }
+
+    public async rotateAgreementKey(): Promise<void> {
+        const keyPairFactory: KeyPairFactory = new KeyPairFactory(Configuration.encryptionKeyGenAlgorithm);
+
+        const newAgreementKey: CryptoKeyPair = await keyPairFactory.generateEncryption(true);
+
+        this.agreementKeys.unshift(this.agreementKey);
+        this.agreementKey = newAgreementKey;
     }
 
     public get data(): Data {
