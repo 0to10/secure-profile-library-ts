@@ -18,7 +18,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "node_modules/.bin/tsc",
+    "build": "node_modules/.bin/webpack",
     "lint": "node_modules/.bin/eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts",
     "test": "jest",
@@ -32,6 +32,12 @@
   "bugs": {
     "url": "https://github.com/0to10/secure-profile-library-ts/issues"
   },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "pkijs": "^3.0.15",
+    "scrypt-js": "^3.0.1",
+    "unorm": "^1.6.0"
+  },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
     "@peculiar/webcrypto": "^1.4.3",
@@ -42,11 +48,9 @@
     "eslint-plugin-deprecation": "^2.0.0",
     "jest": "^29.5.0",
     "ts-jest": "^29.1.0",
-    "tslib": "^2.2.0"
-  },
-  "dependencies": {
-    "pkijs": "^3.0.15",
-    "scrypt-js": "^3.0.1",
-    "unorm": "^1.6.0"
+    "ts-loader": "^9.5.1",
+    "tslib": "^2.2.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   }
 }
