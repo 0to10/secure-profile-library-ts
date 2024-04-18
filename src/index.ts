@@ -10,3 +10,5 @@ export {MasterKey} from './MasterKey';
 export {ProfileFactory} from './Account/Profile/ProfileFactory';
 export {RandomStringGenerator} from './RandomStringGenerator';
 export {RoamingProfile} from './Account/Profile/RoamingProfile';
+export {Sealable} from './Sealable';
+export {Unsealable} from './Unsealable';
