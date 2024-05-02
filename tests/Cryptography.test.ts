@@ -2,7 +2,7 @@
 
 import {describe, expect, test} from '@jest/globals';
 
-import {CryptoEngine} from 'pkijs';
+import * as pki from 'pkijs';
 
 import {Cryptography} from '../src/Cryptography';
 
@@ -14,7 +14,7 @@ describe('Cryptography', (): void => {
     test('.getEngine()', (): void => {
         const engine: SubtleCrypto = Cryptography.getEngine();
 
-        expect(engine).toBeInstanceOf(CryptoEngine);
+        expect(engine).toBeInstanceOf(pki.CryptoEngine);
     });
 
     test.each([
