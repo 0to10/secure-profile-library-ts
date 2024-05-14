@@ -5,9 +5,11 @@ import * as web from '@peculiar/webcrypto';
 
 import {Configuration} from './Configuration';
 
-pki.setEngine('node', new pki.CryptoEngine({
-    crypto: new web.Crypto(),
-}));
+if (typeof window === 'undefined') {
+    pki.setEngine('node', new pki.CryptoEngine({
+        crypto: new web.Crypto(),
+    }));
+}
 
 /**
  * Cryptography
