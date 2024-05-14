@@ -79,8 +79,22 @@ const profile = factory.create();
 // Modify the profile
 
 const encryptedProfile: EncryptedProfile = profile.encrypt(
-    profile.deriveMasterKey('MyS3cretPassw0rd!')
+    await profile.deriveMasterKey('MyS3cretPassw0rd!')
 );
 
 // Store the profile
+```
+
+
+### Running in browser
+
+When running in a web browser, use the library as bound to the `window` object under the
+`SecureProfiles` index. Example below.
+
+```js
+const profileFactory = new window.SecureProfiles.ProfileFactory();
+
+profileFactory.create().then(profile => {
+    // Use "profile"
+});
 ```
