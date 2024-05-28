@@ -5,6 +5,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: './src/index.ts',
+    mode: 'production',
     module: {
         rules: [
             {
@@ -22,6 +23,7 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         fallback: {
+            buffer: false,
             crypto: false,
             process: false,
         },
