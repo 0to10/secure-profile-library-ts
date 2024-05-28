@@ -8,7 +8,7 @@ import {Configuration} from './Configuration';
 if (typeof window === 'undefined') {
     pki.setEngine('node', new pki.CryptoEngine({
         crypto: new web.Crypto(),
-    }));
+    }) as pki.ICryptoEngine);
 }
 
 /**
