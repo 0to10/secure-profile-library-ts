@@ -13,7 +13,7 @@ Get started quickly by following the instructions below.
 Use [NPM](https://www.npmjs.com/) to install this library into your project:
 
 ```shell
-npm install --save @0to10/secure-profiles
+npm install --save @0to10/profiles
 ```
 
 
@@ -25,7 +25,7 @@ npm install --save @0to10/secure-profiles
 Configure the available cryptography parameters. Example below:
 
 ```typescript
-import {CryptoVersions} from '@0to10/secure-profiles';
+import {CryptoVersions} from '@0to10/profiles';
 
 CryptoVersions.configure([
     {
@@ -51,7 +51,7 @@ authorised device, and must never leave that device in its unencrypted form.
 ```typescript
 'use strict';
 
-import {ProfileFactory, RoamingProfile} from '@0to10/secure-profiles';
+import {ProfileFactory, RoamingProfile} from '@0to10/profiles';
 
 const factory: ProfileFactory = new ProfileFactory();
 
@@ -71,7 +71,7 @@ a profile instance **must** refuse storing any unsealed profiles.
 ```typescript
 'use strict';
 
-import {EncryptedProfile, Profile, ProfileFactory} from '@0to10/secure-profiles';
+import {EncryptedProfile, Profile, ProfileFactory} from '@0to10/profiles';
 
 const factory: ProfileFactory = new ProfileFactory();
 
