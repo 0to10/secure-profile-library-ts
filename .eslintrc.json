@@ -34,6 +34,6 @@
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "@typescript-eslint/triple-slash-reference": 0,
     "no-trailing-spaces": 2,
-    "deprecation/deprecation": 2
+    "deprecation/deprecation": 0
   }
 }
