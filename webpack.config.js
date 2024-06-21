@@ -23,7 +23,6 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         fallback: {
-            buffer: false,
             crypto: false,
             process: false,
         },
