@@ -53,7 +53,7 @@ describe('CryptoVersions', (): void => {
             },
         });
 
-        expect(instance.get(3456)).toBeUndefined();
+        expect(instance.get(3456)).toThrowError('Version "3456" does not exist.');
     });
 
 });

@@ -37,8 +37,14 @@ export class CryptoVersions {
         }
     }
 
-    public get(version: number): MasterKeyVersion | undefined {
-        return CryptoVersions.versions[version];
+    public get(version: number): MasterKeyVersion {
+        const result: MasterKeyVersion | undefined = CryptoVersions.versions[version];
+
+        if (undefined === result) {
+            throw new Error(`Version "${version}" does not exist.`);
+        }
+
+        return result;
     }
 
     public has(version: number): boolean {
