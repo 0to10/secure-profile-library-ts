@@ -1,7 +1,7 @@
 {
   "name": "@0to10/profiles",
   "description": "Typescript library for working with encrypted profiles",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "0TO10 <open-source-software@0to10.nl>",
   "homepage": "https://0to10.nl",
   "keywords": [
@@ -12,18 +12,24 @@
     "security",
     "user"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist/"
+  ],
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "build": "node_modules/.bin/webpack",
+    "build": "node_modules/.bin/tsc -p tsconfig.json && node_modules/.bin/tsc -p tsconfig-cjs.json",
     "build:clean": "(rm -r dist || true) && npm run build",
     "lint": "node_modules/.bin/eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts",
     "test": "jest",
     "prepublishOnly": "npm run build:clean"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
