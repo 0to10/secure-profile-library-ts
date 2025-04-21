@@ -4,6 +4,8 @@ import * as pki from 'pkijs';
 import * as web from '@peculiar/webcrypto';
 
 import {Configuration} from './Configuration';
+import {KeyDerivation} from './Cryptography/KeyDerivation';
+import {CryptoKey} from '@peculiar/webcrypto';
 
 if (typeof window === 'undefined') {
     pki.setEngine('node', new pki.CryptoEngine({
@@ -27,6 +29,44 @@ export class Cryptography {
         }
 
         return engine;
+    }
+
+    public static async deriveSymmetricKeyFromPassword(
+        password: string,
+        salt: Uint8Array,
+        length: number,
+    ): Promise<CryptoKey> {
+        const keyData: Uint8Array = await KeyDerivation.derive(password, salt, length, {
+            N: 32768,
+            r: 8,
+            p: 1,
+        });
+
+        const crypto: pki.ICryptoEngine = Cryptography.getEngine();
+
+        return crypto.importKey('raw', keyData, Configuration.masterKey, false, [
+            'encrypt',
+            'decrypt',
+        ]);
+    }
+
+    public static async deriveSymmetricKeyFromSecret(
+        secret: string,
+        salt: Uint8Array,
+        length: number,
+    ): Promise<CryptoKey> {
+        const keyData: Uint8Array = await KeyDerivation.derive(secret, salt, length, {
+            N: 4096,
+            r: 8,
+            p: 1,
+        });
+
+        const crypto: pki.ICryptoEngine = Cryptography.getEngine();
+
+        return crypto.importKey('raw', keyData, Configuration.masterKey, false, [
+            'encrypt',
+            'decrypt',
+        ]);
     }
 
     public static async generateSymmetricKey(length: number): Promise<CryptoKey> {

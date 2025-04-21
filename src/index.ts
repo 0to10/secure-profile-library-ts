@@ -2,6 +2,8 @@
 
 export {Configuration} from './Configuration';
 
+export {Cryptography} from './Cryptography';
+
 export {CryptoParameters} from './CryptoParameters.type';
 export {CryptoVersions} from './CryptoVersions';
 export {Data} from './Account/Data';

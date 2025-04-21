@@ -4,7 +4,6 @@ import {CryptoKey} from '@peculiar/webcrypto';
 
 import {Configuration} from '../../Configuration';
 import {Cryptography} from '../../Cryptography';
-import {KeyDerivation} from '../../Cryptography/KeyDerivation';
 import {MasterKey} from '../../MasterKey';
 
 const crypto: SubtleCrypto = Cryptography.getEngine();
@@ -28,16 +27,11 @@ export abstract class Profile {
     ): Promise<MasterKey> {
         const keyLength: number = Configuration.masterKey.length / 8;
 
-        const keyData: Uint8Array = await KeyDerivation.fromPassword(
+        const cryptoKey: CryptoKey = await Cryptography.deriveSymmetricKeyFromPassword(
             password,
             this.masterSalt,
             keyLength,
         );
-
-        const cryptoKey: CryptoKey = await this.crypto.importKey('raw', keyData, Configuration.masterKey, false, [
-            'encrypt',
-            'decrypt',
-        ]);
 
         return new MasterKey(cryptoKey);
     }

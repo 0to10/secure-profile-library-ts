@@ -26,10 +26,20 @@ describe('KeyDerivation', (): void => {
             length: 25,
             expectedKey: '/54vKP4QcPJxwS+FpE2KPXu3q0Tjg6iLiQ==',
         },
-    ])('.fromPassword($password, $salt, $length)', async ({password, salt, length, expectedKey}): Promise<void> => {
+    ])('.fromPassword($password, $salt, $length)', async ({
+        password,
+        salt,
+        length,
+        expectedKey,
+    }): Promise<void> => {
         const encoder: TextEncoder = new TextEncoder();
 
-        const key: Uint8Array = await KeyDerivation.fromPassword(password, encoder.encode(salt), length);
+        const key: Uint8Array = await KeyDerivation.derive(password, encoder.encode(salt), length, {
+            N: 32768,
+            r: 8,
+            p: 1,
+        });
+
         const keyEncoded: string = btoa(String.fromCharCode.apply(null, key as any));
 
         expect(keyEncoded).toStrictEqual(expectedKey);
