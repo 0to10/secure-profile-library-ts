@@ -30,7 +30,7 @@ describe('KeyDerivation', (): void => {
         const encoder: TextEncoder = new TextEncoder();
 
         const key: Uint8Array = await KeyDerivation.fromPassword(password, encoder.encode(salt), length);
-        const keyEncoded: string = btoa(String.fromCharCode.apply(null, key));
+        const keyEncoded: string = btoa(String.fromCharCode.apply(null, key as any));
 
         expect(keyEncoded).toStrictEqual(expectedKey);
     });
