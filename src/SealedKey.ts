@@ -40,15 +40,15 @@ export class SealedKey implements Unsealable<EncryptionKey> {
             throw new Error('Encryption key must be unsealed using a private key.');
         }
 
-        return Cryptography.unwrapKeyAsymmetrical(
+        const unwrapped: CryptoKey = await Cryptography.unwrapKeyAsymmetrical(
             this.data,
             privateKey,
             this.algorithm,
             this.extractable,
             this.usages,
-        ).then(unwrapped => {
-            return new EncryptionKey(unwrapped);
-        });
+        );
+
+        return new EncryptionKey(unwrapped);
     }
 
 }
