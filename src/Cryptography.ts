@@ -1,15 +1,15 @@
 'use strict';
 
 import * as pki from 'pkijs';
-import * as web from '@peculiar/webcrypto';
+
+import {Crypto, CryptoKey} from '@peculiar/webcrypto';
 
 import {Configuration} from './Configuration';
 import {KeyDerivation} from './Cryptography/KeyDerivation';
-import {CryptoKey} from '@peculiar/webcrypto';
 
 if (typeof window === 'undefined') {
     pki.setEngine('node', new pki.CryptoEngine({
-        crypto: new web.Crypto(),
+        crypto: new Crypto(),
     }) as pki.ICryptoEngine);
 }
 
@@ -123,6 +123,36 @@ export class Cryptography {
             extractable,
             usages,
         );
+    }
+
+    public static async encryptSymmetrical(
+        key: CryptoKey,
+        salt: Uint8Array,
+        data: ArrayBuffer,
+    ): Promise<ArrayBuffer> {
+        const crypto: pki.ICryptoEngine = Cryptography.getEngine();
+
+        const params: AesGcmParams = {
+            name: 'AES-GCM',
+            iv: salt,
+        };
+
+        return crypto.encrypt(params, key, data);
+    }
+
+    public static async decryptSymmetrical(
+        key: CryptoKey,
+        salt: ArrayBuffer,
+        encrypted: ArrayBuffer,
+    ): Promise<ArrayBuffer> {
+        const crypto: pki.ICryptoEngine = Cryptography.getEngine();
+
+        const params: AesGcmParams = {
+            name: 'AES-GCM',
+            iv: salt,
+        };
+
+        return crypto.decrypt(params, key, encrypted);
     }
 
     public static isAsymmetricalKey(key: CryptoKey): boolean {
