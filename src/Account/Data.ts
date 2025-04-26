@@ -1,5 +1,7 @@
 'use strict';
 
+import {ObjectHelper} from '../Util/ObjectHelper';
+
 /**
  * Data
  *
@@ -11,8 +13,10 @@ export class Data {
     public static fromObject(object: object): Data {
         const data: Data = new Data();
 
-        for (const key in object) {
-            data.set(key, object[key]);
+        const flattened: object = ObjectHelper.flatten(object);
+
+        for (const key in flattened) {
+            data.set(key, flattened[key]);
         }
 
         return data;
