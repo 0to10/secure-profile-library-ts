@@ -22,4 +22,32 @@ export class ObjectHelper {
         return newObject;
     }
 
+    public static flatten(input: object): object {
+        let result: Record<string, any> = {};
+
+        for (const property in input) {
+            if (!input.hasOwnProperty(property)) {
+                continue;
+            }
+
+            const current: any = input[property];
+
+            if ('object' !== typeof current) {
+                result[property] = current;
+                continue;
+            }
+
+            const flattened: Record<string, any> = ObjectHelper.flatten(current);
+            for (const key in flattened) {
+                if (!flattened.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                result[property + '.' + key] = flattened[key];
+            }
+        }
+
+        return result;
+    }
+
 }
