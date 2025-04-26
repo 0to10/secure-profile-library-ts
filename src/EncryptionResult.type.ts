@@ -9,4 +9,4 @@
 export type EncryptionResult = {
     readonly iv: ArrayBuffer;
     readonly data: ArrayBuffer;
-}
+};

@@ -23,10 +23,10 @@ export class ObjectHelper {
     }
 
     public static flatten(input: object): object {
-        let result: Record<string, any> = {};
+        const result: Record<string, any> = {};
 
         for (const property in input) {
-            if (!input.hasOwnProperty(property)) {
+            if (!Object.prototype.hasOwnProperty.call(input, property)) {
                 continue;
             }
 
@@ -39,7 +39,7 @@ export class ObjectHelper {
 
             const flattened: Record<string, any> = ObjectHelper.flatten(current);
             for (const key in flattened) {
-                if (!flattened.hasOwnProperty(key)) {
+                if (!Object.prototype.hasOwnProperty.call(flattened, key)) {
                     continue;
                 }
 

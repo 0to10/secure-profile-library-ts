@@ -21,4 +21,4 @@ export type KeyDerivationOptions = {
      * Parallelization cost; increasing this increases the dependency on multiprocessing
      */
     readonly p: number;
-}
+};
