@@ -26,6 +26,10 @@ export class Data {
         return this[name] ?? undefined;
     }
 
+    public has(name: string): boolean {
+        return Object.prototype.hasOwnProperty.call(this, name);
+    }
+
     public set(name: string, value: any): void {
         this[name] = value;
     }

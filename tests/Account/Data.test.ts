@@ -40,6 +40,7 @@ describe('Data', (): void => {
             },
             assertions: {
                 'first': 'first',
+                'not_there': undefined,
                 'second': true,
                 'third': 12345,
             },
@@ -54,6 +55,7 @@ describe('Data', (): void => {
             assertions: {
                 'name.first': 'John',
                 'name.last': 'Doe',
+                'name.non_existing': undefined,
             },
         },
     ])('.fromObject($input)', ({
@@ -64,6 +66,7 @@ describe('Data', (): void => {
 
         for (const [key, expected] of Object.entries(assertions)) {
             expect(data.get(key)).toStrictEqual(expected);
+            expect(data.has(key)).toStrictEqual(undefined !== expected);
         }
     });
 
