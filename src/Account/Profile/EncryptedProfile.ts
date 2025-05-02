@@ -23,7 +23,7 @@ export class EncryptedProfile extends Profile {
 
     constructor(
         masterSalt: Uint8Array,
-        private readonly data: ArrayBuffer,
+        public readonly data: ArrayBuffer,
     ) {
         super(masterSalt, true);
     }
