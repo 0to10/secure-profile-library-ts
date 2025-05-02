@@ -6,6 +6,9 @@ import {CryptoVersions} from './CryptoVersions';
 import {MasterKeyVersion} from './MasterKeyVersion.type';
 import {NumberTransformer} from './Util/NumberTransformer';
 
+const crypto: SubtleCrypto = Cryptography.getEngine();
+
+
 /**
  * MasterKey
  *
@@ -13,8 +16,6 @@ import {NumberTransformer} from './Util/NumberTransformer';
  * @license MIT
  */
 export class MasterKey {
-
-    private static readonly crypto: SubtleCrypto = Cryptography.getEngine();
 
     private readonly versions: CryptoVersions = new CryptoVersions();
 
@@ -42,7 +43,7 @@ export class MasterKey {
             iv,
         };
 
-        const promise: Promise<ArrayBuffer> = MasterKey.crypto.encrypt(params, this.key, data);
+        const promise: Promise<ArrayBuffer> = crypto.encrypt(params, this.key, data);
 
         const DATA_OFFSET: number = 1 + versionEncoded.length;
 
@@ -80,7 +81,7 @@ export class MasterKey {
 
         const data: ArrayBuffer = encrypted.slice(DATA_OFFSET + version.algorithm.iv_length);
 
-        return MasterKey.crypto.decrypt(params, this.key, data);
+        return crypto.decrypt(params, this.key, data);
     }
 
 }
