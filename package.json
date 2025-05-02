@@ -1,7 +1,7 @@
 {
   "name": "@0to10/profiles",
   "description": "Typescript library for working with encrypted profiles",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "author": "0TO10 <open-source-software@0to10.nl>",
   "homepage": "https://0to10.nl",
   "keywords": [
@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@peculiar/webcrypto": "^1.4.3",
-    "ajv": "^8.12.0",
     "pkijs": "^3.0.15",
     "scrypt-js": "^3.0.1",
     "unorm": "^1.6.0"
