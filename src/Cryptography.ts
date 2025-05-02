@@ -44,7 +44,7 @@ export class Cryptography {
 
         const crypto: pki.ICryptoEngine = Cryptography.getEngine();
 
-        return crypto.importKey('raw', keyData, Configuration.masterKey, false, [
+        return crypto.importKey('raw', keyData, Configuration.masterKey, true, [
             'encrypt',
             'decrypt',
         ]);
@@ -63,7 +63,7 @@ export class Cryptography {
 
         const crypto: pki.ICryptoEngine = Cryptography.getEngine();
 
-        return crypto.importKey('raw', keyData, Configuration.masterKey, false, [
+        return crypto.importKey('raw', keyData, Configuration.masterKey, true, [
             'encrypt',
             'decrypt',
         ]);
