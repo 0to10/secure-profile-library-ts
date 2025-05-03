@@ -12,6 +12,7 @@ export {EncryptedProfile} from './Account/Profile/EncryptedProfile';
 export {EncryptionResult} from './EncryptionResult.type';
 export {MasterKey} from './MasterKey';
 export {ProfileFactory} from './Account/Profile/ProfileFactory';
+export {ProfileSerializer} from './Account/Profile/ProfileSerializer';
 export {RandomStringGenerator} from './RandomStringGenerator';
 export {RoamingProfile} from './Account/Profile/RoamingProfile';
 export {Sealable} from './Sealable';
