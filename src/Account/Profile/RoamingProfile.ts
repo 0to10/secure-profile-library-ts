@@ -76,7 +76,9 @@ export class RoamingProfile extends Profile {
         //     }
         // }
 
-        const unencryptedData: ArrayBuffer = Buffer.from(JSON.stringify({
+        const textEncoder: TextEncoder = new TextEncoder();
+
+        const unencryptedData: ArrayBuffer = textEncoder.encode(JSON.stringify({
             agreement_key: await this.exportKeyPair(this.agreementKey),
             device_certificates: deviceCertificates,
             profile_data: this._data,
