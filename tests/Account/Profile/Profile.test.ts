@@ -9,18 +9,18 @@ import {Profile} from '../../../src/Account/Profile/Profile';
 
 
 class TestProfile extends Profile {
-    constructor(masterSalt: Uint8Array) {
+    constructor(masterSalt: ArrayBuffer) {
         super(masterSalt, false);
     }
 
-    public getMasterSalt(): Uint8Array {
+    public getMasterSalt(): ArrayBuffer {
         return this.masterSalt;
     }
 }
 
 describe('Profile', (): void => {
 
-    const salt: Uint8Array = Cryptography.randomBytes(100);
+    const salt: ArrayBuffer = Cryptography.randomBytes(100);
 
     test('.deriveMasterKey()', async (): Promise<void> => {
         const profile: TestProfile = new TestProfile(salt);

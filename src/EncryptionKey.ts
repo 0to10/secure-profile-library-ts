@@ -27,14 +27,14 @@ export class EncryptionKey implements Sealable<SealedKey> {
     }
 
     public async encrypt(data: string | ArrayBuffer): Promise<EncryptionResult> {
-        const salt: Uint8Array = Cryptography.randomBytes(16);
+        const salt: ArrayBuffer = Cryptography.randomBytes(16);
 
         if ('string' === typeof data) {
             data = textEncoder.encode(data);
         }
 
         return {
-            iv: salt.buffer,
+            iv: salt,
             data: await Cryptography.encryptSymmetrical(this.key, salt, data),
         };
     }

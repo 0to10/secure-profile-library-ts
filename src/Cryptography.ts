@@ -33,7 +33,7 @@ export class Cryptography {
 
     public static async deriveSymmetricKeyFromPassword(
         password: string,
-        salt: Uint8Array,
+        salt: ArrayBuffer,
         length: number,
     ): Promise<CryptoKey> {
         const keyData: Uint8Array = await KeyDerivation.derive(password, salt, length, {
@@ -127,7 +127,7 @@ export class Cryptography {
 
     public static async encryptSymmetrical(
         key: CryptoKey,
-        salt: Uint8Array,
+        salt: ArrayBuffer,
         data: ArrayBuffer,
     ): Promise<ArrayBuffer> {
         const crypto: pki.ICryptoEngine = Cryptography.getEngine();
@@ -159,8 +159,8 @@ export class Cryptography {
         return ['public', 'private'].includes(key.type);
     }
 
-    public static randomBytes(length: number): Uint8Array {
-        return pki.getRandomValues(new Uint8Array(length));
+    public static randomBytes(length: number): ArrayBuffer {
+        return pki.getRandomValues(new Uint8Array(length)).buffer;
     }
 
 }

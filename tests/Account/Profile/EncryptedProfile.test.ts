@@ -12,7 +12,7 @@ import {EncryptedProfile} from '../../../src/Account/Profile/EncryptedProfile';
 
 describe('EncryptedProfile', (): void => {
 
-    const salt: Uint8Array = Cryptography.randomBytes(200);
+    const salt: ArrayBuffer = Cryptography.randomBytes(200);
 
     test('new', async (): Promise<void> => {
         const encryptedProfile: EncryptedProfile = new EncryptedProfile(salt, Buffer.from(''));

@@ -17,7 +17,7 @@ const crypto: SubtleCrypto = Cryptography.getEngine();
 export abstract class Profile {
 
     protected constructor(
-        public readonly masterSalt: Uint8Array,
+        public readonly masterSalt: ArrayBuffer,
         public readonly sealed: boolean,
     ) {
     }

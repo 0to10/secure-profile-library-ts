@@ -18,7 +18,7 @@ export class KeyDerivation {
 
     public static async derive(
         input: string,
-        salt: Uint8Array,
+        salt: ArrayBuffer,
         length: number,
         options: Options,
     ): Promise<Uint8Array> {
@@ -26,11 +26,9 @@ export class KeyDerivation {
 
         const {N, r, p}: Options = options;
 
-        const digest: Uint8Array = new Uint8Array(
-            await crypto.digest('SHA-256', encoder.encode(nfkc(input)))
-        );
+        const digest: ArrayBuffer = await crypto.digest('SHA-256', encoder.encode(nfkc(input)));
 
-        return scrypt(digest, salt, N, r, p, length);
+        return scrypt(new Uint8Array(digest), new Uint8Array(salt), N, r, p, length);
     }
 
 }

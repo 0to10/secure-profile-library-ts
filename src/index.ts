@@ -2,7 +2,15 @@
 
 export {Configuration} from './Configuration';
 
-export {Cryptography} from './Cryptography';
+import {Cryptography} from './Cryptography';
+
+class BcCryptography extends Cryptography {
+    public static override randomBytes(length: number): Uint8Array {
+        return new Uint8Array(super.randomBytes(length));
+    }
+}
+
+export {BcCryptography as Cryptography};
 
 export {ArrayBufferTransformer} from './Util/ArrayBufferTransformer';
 export {CryptoParameters} from './CryptoParameters.type';

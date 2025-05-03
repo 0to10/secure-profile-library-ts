@@ -131,7 +131,7 @@ describe('Cryptography', (): void => {
     test('.randomBytes()', (): void => {
         const randomBytes: ArrayBuffer = Cryptography.randomBytes(15);
 
-        expect(randomBytes).toBeInstanceOf(Uint8Array);
+        expect(randomBytes).toBeInstanceOf(ArrayBuffer);
         expect(randomBytes.byteLength).toStrictEqual(15);
 
         const textDecoder: TextDecoder = new TextDecoder();

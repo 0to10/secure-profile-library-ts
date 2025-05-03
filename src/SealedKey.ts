@@ -12,7 +12,7 @@ import {Unsealable} from './Unsealable';
  */
 export class SealedKey implements Unsealable<EncryptionKey> {
 
-    constructor(
+    private constructor(
         private readonly data: ArrayBuffer,
         private readonly algorithm: KeyAlgorithm,
         private readonly extractable: boolean,

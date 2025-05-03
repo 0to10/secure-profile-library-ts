@@ -22,7 +22,7 @@ const decoder: TextDecoder = new TextDecoder();
 export class EncryptedProfile extends Profile {
 
     constructor(
-        masterSalt: Uint8Array,
+        masterSalt: ArrayBuffer,
         public readonly data: ArrayBuffer,
     ) {
         super(masterSalt, true);

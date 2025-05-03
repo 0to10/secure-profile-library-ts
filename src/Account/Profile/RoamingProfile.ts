@@ -25,7 +25,7 @@ export class RoamingProfile extends Profile {
     private _data: Data = new Data();
 
     constructor(
-        masterSalt: Uint8Array,
+        masterSalt: ArrayBuffer,
         private agreementKey: CryptoKeyPair,
     ) {
         super(masterSalt, false);
