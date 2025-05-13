@@ -84,4 +84,8 @@ export class MasterKey {
         return crypto.decrypt(params, this.key, data);
     }
 
+    public get extractable(): boolean {
+        return this.key.extractable;
+    }
+
 }

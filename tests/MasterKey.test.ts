@@ -15,7 +15,9 @@ describe('MasterKey', (): void => {
     /**
      * Creates a predictable master key for testing purposes
      */
-    const createMasterKey = async (): Promise<MasterKey> => {
+    const createMasterKey: (extractable?: boolean) => Promise<MasterKey> = async (
+        extractable: boolean = false,
+    ): Promise<MasterKey> => {
         const algorithm: Pbkdf2Params = {
             name: 'PBKDF2',
             salt: Buffer.from('TST_ABC_DEF_123456'),
@@ -32,12 +34,27 @@ describe('MasterKey', (): void => {
                 'deriveKey',
             ]),
             parameters,
-            false,
+            extractable,
             usages,
         );
 
         return new MasterKey(derivedData);
     }
+
+    test.each([
+        {
+            extractable: true,
+        },
+        {
+            extractable: false,
+        },
+    ])('.construct', async ({
+        extractable,
+    }): Promise<void> => {
+        const masterKey: MasterKey = await createMasterKey(extractable);
+
+        expect(masterKey.extractable).toStrictEqual(extractable);
+    });
 
     test('.encrypt()', async (): Promise<void> => {
         const masterKey: MasterKey = await createMasterKey();
