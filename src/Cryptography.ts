@@ -69,7 +69,10 @@ export class Cryptography {
         ]);
     }
 
-    public static async generateSymmetricKey(length: number): Promise<CryptoKey> {
+    public static async generateSymmetricKey(
+        length: number,
+        extractable: boolean = true,
+    ): Promise<CryptoKey> {
         const crypto: pki.ICryptoEngine = Cryptography.getEngine();
 
         const algorithm: AesKeyGenParams = {
@@ -77,7 +80,7 @@ export class Cryptography {
             length,
         };
 
-        return crypto.generateKey(algorithm, true, [
+        return crypto.generateKey(algorithm, extractable, [
             'encrypt',
             'decrypt',
         ]);
