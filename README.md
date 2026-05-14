@@ -84,17 +84,3 @@ const encryptedProfile: EncryptedProfile = profile.encrypt(
 
 // Store the profile
 ```
-
-
-### Running in browser
-
-When running in a web browser, use the library as bound to the `window` object under the
-`SecureProfiles` index. Example below.
-
-```js
-const profileFactory = new window.SecureProfiles.ProfileFactory();
-
-profileFactory.create().then(profile => {
-    // Use "profile"
-});
-```
