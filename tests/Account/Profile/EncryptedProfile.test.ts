@@ -5,7 +5,7 @@ import {describe, expect, test} from '@jest/globals';
 import {Cryptography} from '../../../src/Cryptography';
 import {KeyPairFactory} from '../../../src/KeyPairFactory';
 import {MasterKey} from '../../../src/MasterKey';
-import {Configuration, RoamingProfile} from '../../../src';
+import {Configuration, Profile, RoamingProfile} from '../../../src';
 
 import {EncryptedProfile} from '../../../src/Account/Profile/EncryptedProfile';
 
@@ -17,6 +17,7 @@ describe('EncryptedProfile', (): void => {
     test('new', async (): Promise<void> => {
         const encryptedProfile: EncryptedProfile = new EncryptedProfile(salt, Buffer.from(''));
 
+        expect(encryptedProfile).toBeInstanceOf(Profile);
         expect(encryptedProfile.sealed).toBeTruthy();
     });
 
