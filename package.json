@@ -40,6 +40,7 @@
     "url": "https://github.com/0to10/secure-profile-library-ts/issues"
   },
   "dependencies": {
+    "@noble/secp256k1": "^3.1.0",
     "@peculiar/webcrypto": "^1.4.3",
     "pkijs": "^3.0.15",
     "scrypt-js": "^3.0.1",
